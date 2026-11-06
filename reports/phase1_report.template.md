@@ -95,4 +95,4 @@ See `CONTRIBUTIONS.md` (per task owner and status).
 
 ## 8. AI usage statement
 
-AI assistance (Claude Code) was used and is disclosed task by task in `AI_USAGE_LOG.md`, including which files were generated or modified and who reviewed them; commits made with AI carry a `Co-Authored-By: Claude` trailer. The allowed level of AI use is being confirmed with the TA.
+AI assistance (Claude Code) was used and is disclosed task by task in `AI_USAGE_LOG.md`, including which files were generated or modified and who reviewed them. The allowed level of AI use is being confirmed with the TA.

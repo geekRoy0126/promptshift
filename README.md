@@ -38,4 +38,4 @@ See Section 4 of `CLAUDE.md`.
 
 ## AI use
 
-AI assistance (Claude Code) is disclosed in `AI_USAGE_LOG.md`; commits written with AI carry a `Co-Authored-By: Claude` trailer. Contributions per member are in `CONTRIBUTIONS.md`.
+AI assistance (Claude Code) is disclosed in `AI_USAGE_LOG.md` (per task: files touched and reviewer). Contributions per member are in `CONTRIBUTIONS.md`.

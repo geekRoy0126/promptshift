@@ -1,6 +1,6 @@
 # AI usage log
 
-Course policy: AI is allowed only as a learning aid and must be disclosed. Every session that uses AI adds an entry here. Commits written with AI carry a `Co-Authored-By: Claude` trailer.
+Course policy: AI is allowed only as a learning aid and must be disclosed. Every session that uses AI adds an entry here. Commits carry no AI trailer; this log is the record of which work used AI.
 
 | Date | Member | Tool | What was done | Files generated / modified by AI | Reviewed by |
 |---|---|---|---|---|---|
@@ -12,5 +12,6 @@ Course policy: AI is allowed only as a learning aid and must be disclosed. Every
 | 2026-11-05 | A (Ruoyu Wang) | Claude Code (Claude Opus 5.5) | P1-6: read official MedSAM_Inference.py and diffed MedSAM's segment_anything fork against upstream; wrote SAM / MedSAM / mock wrappers, weight download + verification, parity script (found and fixed the JPEG-output issue), tests. Ran parity locally on CPU. | `src/promptshift/models/{__init__,base,mock,sam,medsam}.py`, `scripts/{download_weights,model_parity}.py`, `tests/test_models.py`, `results/parity/*.csv`, `pyproject.toml`, `README.md`, `src/promptshift/data/kvasir.py` (lint), docs/logs | Pending review by Ruoyu Wang |
 | 2026-11-05 | A (Ruoyu Wang) | Claude Code (Claude Opus 5.5) | P1-7: config merging, experiment runner (encode once / decode many, invalid-row handling, per-object CSV, resume with repair, error counting), pilot config, run script, tests incl. simulated kill; ran the local CPU smoke test. | `src/promptshift/{config,runner}.py`, `configs/p1_kvasir_pilot.yaml`, `scripts/run_experiment.py`, `tests/test_runner.py`, `.gitignore`, docs/logs | Pending review by Ruoyu Wang |
 | 2026-11-05 | A (Ruoyu Wang) | Claude Code (Claude Opus 5.5) | P1-14 (A part): report table generator, report template (prose only) and rendered draft, README results block; parity environment record; CLAUDE.md Section 4 layout update. | `scripts/make_report_tables.py`, `scripts/model_parity.py`, `reports/phase1_report.template.md`, `reports/phase1_report.md`, `reports/tables/*.md`, `tests/test_report_tables.py`, `results/parity/environment.json`, `README.md`, `CLAUDE.md`, docs/logs | Pending review by Ruoyu Wang |
+| 2026-11-06 | A (Ruoyu Wang) | Claude Code (Claude Opus 5.5) | Removed the AI co-author trailer from local commit history at the owner's request; updated disclosure wording. | git history, `CLAUDE.md`, `AI_USAGE_LOG.md`, `README.md`, `reports/phase1_report.template.md`, `reports/phase1_report.md`, `docs/decisions.md` | Pending review by Ruoyu Wang |
 
 Note: the allowed level of AI use is to be confirmed with the TA on 2026-11-06.

@@ -46,7 +46,7 @@ Promptable segmentation models (SAM, MedSAM) are almost always evaluated with ne
 7. **Identical prompts across models.** A perturbed prompt depends only on `(image_id, object_idx, perturb, level, seed)`, never on the model, so model comparisons are paired (see 6.3).
 8. **No large files in git.** Datasets, weights, embeddings and predicted masks never go into git. Result CSVs may be committed if their total size is under 10 MB.
 9. **Read-only directory.** `course_ref/` (course-provided code / notebooks, if present) is read-only. (As of 2026-11-05 there is no `course_ref/`.)
-10. **Git location.** The repo root is `D:\cs5330\promptshift\`. Never run git commands in `C:\Users\ruoyu` or `D:\cs5330`. Before every commit, `git rev-parse --show-toplevel` must print `D:/cs5330/promptshift`. Every commit ends with a `Co-Authored-By: Claude …` trailer (part of the AI disclosure).
+10. **Git location.** The repo root is `D:\cs5330\promptshift\`. Never run git commands in `C:\Users\ruoyu` or `D:\cs5330`. Before every commit, `git rev-parse --show-toplevel` must print `D:/cs5330/promptshift`. Commits carry no `Co-Authored-By` trailer (owner's choice, 2026-11-06); AI use is disclosed in `AI_USAGE_LOG.md` and the report instead.
 11. **Secrets.** The GitHub repo is private; Colab clones it with the token in the Colab secret `GH_TOKEN` (read via `google.colab.userdata`). Kaggle credentials come from `KAGGLE_USERNAME` / `KAGGLE_KEY` or Colab secrets. Never print or commit a token, and never commit `kaggle.json`.
 12. **Tests stay offline.** Default tests use a tiny mock segmenter so `pytest -q` is fast and needs no weights or network. Tests that need real weights are marked `@pytest.mark.slow` and skip when the weights are missing.
 

@@ -12,6 +12,7 @@ Format: date | question | choice | reason. Newest at the bottom.
 | 2026-11-05 | `course_ref/` | Does not exist. Kvasir split = seed 42, 70/10/20; U-Net = smp default (CLAUDE.md 6.6). | Human answer #4 |
 | 2026-11-05 | Owners B / C | B = Hao Wang, C = Jiani He. | Human answer #5 |
 | 2026-11-05 | AI disclosure | Every commit keeps a `Co-Authored-By: Claude` trailer; `AI_USAGE_LOG.md` updated each session. Allowed level of AI use to be confirmed with the TA on 2026-11-06. | Human answer #6 |
+| 2026-11-06 | AI disclosure (revised) | Owner does not want Claude listed as a GitHub contributor. Removed the `Co-Authored-By` trailer from all 10 local commits before the first push (history rewritten; file contents unchanged; old history kept on local branch `backup/with-trailers`). Future commits have no trailer. Disclosure is now `AI_USAGE_LOG.md` + report Section 8. | Owner request |
 | 2026-11-05 | Invalid prompts vs. "no missing rows" | Always write the row: `flag=invalid`, NaN metrics. P1-9 acceptance: rows = images × 24 per model, invalid count reported (expected ~0). | Human answer #7; keeps row counts checkable |
 | 2026-11-05 | One invalid object in a multi-object image | The whole image row for that configuration is `flag=invalid`; count logged. | Human answer #8; a partial union would not be comparable to the full GT |
 | 2026-11-05 | Kvasir count ≠ 1000 | Keep 70/10/20 fractions, log the actual count. | Human answer #9 |
