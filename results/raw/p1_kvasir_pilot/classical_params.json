@@ -1,0 +1,39 @@
+{
+ "method": "classical",
+ "dataset": "kvasir_seg",
+ "params": {
+  "channel": "lab_L",
+  "polarity": "high",
+  "sigma": 1,
+  "radius": 10
+ },
+ "selection": "max mean Dice on train (700 images); test evaluated once",
+ "train_dice": 0.351101906670077,
+ "val_dice": 0.3322340558660163,
+ "test_dice": 0.3639560261101991,
+ "n_test": 200,
+ "git_sha": "8fc6681",
+ "grid": {
+  "channel": [
+   "lab_L",
+   "lab_a",
+   "lab_b",
+   "hsv_s",
+   "hsv_v"
+  ],
+  "polarity": [
+   "high",
+   "low"
+  ],
+  "sigma": [
+   1,
+   2,
+   4
+  ],
+  "radius": [
+   2,
+   5,
+   10
+  ]
+ }
+}

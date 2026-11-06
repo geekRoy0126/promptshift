@@ -16,7 +16,7 @@ A = Ruoyu Wang · B = Hao Wang · C = Jiani He. Commit messages start with `[A]`
 | P1-8 Colab notebooks | A / B | P1_00–P1_04 written by A + Claude (P1_04 at A's request); local CPU run OK for P1_00–P1_03; Colab Run all pending | AI-assisted (see AI_USAGE_LOG.md) |
 | P1-9 Kvasir pilot | A | todo | |
 | P1-10 U-Net baseline | B | code + P1_04 by A + Claude at A's request; Colab training pending | AI-assisted (see AI_USAGE_LOG.md) |
-| P1-11 Classical baseline (recommended) | C | todo | |
+| P1-11 Classical baseline (recommended) | C | done by A + Claude at A's request (test Dice in reports/tables/p1_baselines.md) | AI-assisted (see AI_USAGE_LOG.md) |
 | P1-12 Analysis and figures | C | code by A + Claude at A's request; final figures after the Colab runs | AI-assisted (see AI_USAGE_LOG.md) |
 | P1-13 Leakage check | B | done by A + Claude at A's request | Sources quoted in docs/leakage.md; AI-assisted (see AI_USAGE_LOG.md) |
 | P1-14 Report, contributions, AI log | All | A: tables script + report template done; pilot numbers TBD | A part AI-assisted (see AI_USAGE_LOG.md) |
