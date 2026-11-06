@@ -28,7 +28,7 @@ from promptshift.prompts import box_from_mask
 
 # Kvasir: official count (datasets.simula.no/kvasir-seg). COCO: number of sampled
 # instances (spec 6.1); the official val2017 image count is checked separately.
-EXPECTED_COUNT = {"kvasir_seg": 1000, "coco_val2017": 1000}
+EXPECTED_COUNT = {"kvasir_seg": 1000, "coco_val2017": 1000, "isic2018": 2594}
 COCO_VAL2017_IMAGES = 5000  # https://cocodataset.org/#download (2017 Val images [5K/1GB])
 
 
@@ -74,7 +74,8 @@ def coco_section(name, df, counts, cfg) -> str:
 def per_image_stats(ds, ids, split_of) -> pd.DataFrame:
     rows = []
     for k, image_id in enumerate(ids, 1):
-        s = ds.get(image_id)
+        # ISIC: statistics from masks only (images may not be downloaded)
+        s = ds.mask_sample(image_id) if hasattr(ds, "mask_sample") else ds.get(image_id)
         n_px = s.mask.size
         rows.append(
             {
@@ -101,7 +102,7 @@ def q(series, qs=(0.0, 0.05, 0.25, 0.5, 0.75, 0.95, 1.0), fmt="{:.4f}") -> str:
     return f"| {head} |\n|{'---|' * len(qs)}\n| " + " | ".join(fmt.format(v) for v in vals) + " |"
 
 
-def markdown_section(name, df, problems, expected, split, cfg) -> str:
+def markdown_section(name, df, problems, expected, split, cfg, extra=()) -> str:
     n = len(df)
     obj_fracs = np.array(
         [float(x) for s in df["object_area_fracs"] if s for x in s.split(";")], dtype=float
@@ -125,6 +126,7 @@ def markdown_section(name, df, problems, expected, split, cfg) -> str:
         f"{int((df['n_specks_removed'] > 0).sum())} images",
         f"- Images with no object left after cleaning: **{int((df['n_objects'] == 0).sum())}**",
         f"- Split (seed {split['seed']}): " + ", ".join(f"{s} {len(split[s])}" for s in SPLITS),
+        *extra,
         "",
         "### Objects per split",
         "",
@@ -242,6 +244,10 @@ def main() -> int:
         if v:
             print(f"  WARNING {k}: {len(v)} e.g. {v[:3]}")
 
+    extra_lines, extra_ok = ds.count_check() if hasattr(ds, "count_check") else ([], True)
+    for line in extra_lines:
+        print(" ", line)
+
     if split_file.exists() and not args.resplit:
         print(f"using existing split {split_file}")
     elif hasattr(ds, "make_split"):  # dataset-specific (COCO: sampled instances, test only)
@@ -272,7 +278,9 @@ def main() -> int:
         print(f"  {counts}")
         body = coco_section(args.dataset, df, counts, data_cfg)
     else:
-        body = markdown_section(args.dataset, df, ds.problems, expected, split, data_cfg)
+        body = markdown_section(
+            args.dataset, df, ds.problems, expected, split, data_cfg, extra_lines
+        )
     replace_section(md_path, args.dataset, body)
     print(f"updated {md_path}")
 
@@ -281,6 +289,7 @@ def main() -> int:
     print(f"wrote {fig_path}")
 
     ok = (expected is None or len(ids) == expected) and not any(ds.problems.values())
+    ok = ok and extra_ok
     print("CHECK", "OK" if ok else "MISMATCH (see docs/data_stats.md)")
     return 0
 

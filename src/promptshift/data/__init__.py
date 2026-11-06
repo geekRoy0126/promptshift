@@ -23,6 +23,8 @@ class _Lazy:
 LOADERS = {
     "kvasir_seg": KvasirSeg,
     "coco_val2017": _Lazy("promptshift.data.coco", "CocoVal2017"),
+    "isic2018": _Lazy("promptshift.data.isic", "Isic2018"),
+    "busi": _Lazy("promptshift.data.busi", "Busi"),
 }
 
 

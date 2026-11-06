@@ -3,10 +3,15 @@
 Usage:
     python scripts/download_data.py --dataset kvasir_seg [--root PATH] [--force]
     python scripts/download_data.py --dataset coco_val2017 [--skip-images]
+    python scripts/download_data.py --dataset isic2018 [--skip-images]
+    python scripts/download_data.py --dataset busi
 
 Idempotent: skips the download if the archive exists and skips extraction if the
 expected output exists. Prints each archive's sha256 so it can be logged.
-ISIC (owner B) and BUSI (owner C) are added to SOURCES by their owners in P1-5.
+ISIC 2018: official training set only (masks 27 MB, images 11 GB). With --skip-images only the
+member list of the image zip is saved (read with HTTP range requests, no full download).
+BUSI: downloaded from Kaggle with kagglehub (public dataset; credentials, if needed, come from
+KAGGLE_USERNAME / KAGGLE_KEY or Colab secrets; nothing is printed or saved).
 """
 
 from __future__ import annotations
@@ -45,7 +50,23 @@ SOURCES: dict[str, list[dict]] = {
             "images": True,
         },
     ],
+    "isic2018": [
+        {
+            "url": "https://isic-archive.s3.amazonaws.com/challenges/2018/"
+            "ISIC2018_Task1_Training_GroundTruth.zip",
+            "archive": "ISIC2018_Task1_Training_GroundTruth.zip",
+            "extracted": "ISIC2018_Task1_Training_GroundTruth",
+        },
+        {
+            "url": "https://isic-archive.s3.amazonaws.com/challenges/2018/"
+            "ISIC2018_Task1-2_Training_Input.zip",
+            "archive": "ISIC2018_Task1-2_Training_Input.zip",
+            "extracted": "ISIC2018_Task1-2_Training_Input",
+            "images": True,
+        },
+    ],
 }
+KAGGLE = {"busi": ("aryashah2k/breast-ultrasound-images-dataset", "Dataset_BUSI_with_GT")}
 
 
 def sha256_of(path: Path, chunk: int = 1 << 20) -> str:
@@ -113,12 +134,61 @@ def fetch_archive(src: dict, out_dir: Path, force: bool) -> Path:
     return extracted
 
 
+def tree_hash(folder: Path) -> tuple[int, str]:
+    """(number of files, sha256 over sorted relative paths + file hashes)."""
+    h = hashlib.sha256()
+    files = sorted(p for p in folder.rglob("*") if p.is_file())
+    for p in files:
+        h.update(p.relative_to(folder).as_posix().encode() + b"|" + sha256_of(p).encode())
+    return len(files), h.hexdigest()
+
+
+def fetch_kaggle(name: str, out_dir: Path, force: bool) -> None:
+    handle, folder = KAGGLE[name]
+    target = out_dir / folder
+    if target.is_dir() and force:
+        shutil.rmtree(target)
+    if not target.is_dir():
+        import kagglehub
+
+        src = Path(kagglehub.dataset_download(handle))
+        print(f"kagglehub: {handle} -> {src}")  # path ends in versions/<n>
+        if not (src / folder).is_dir():
+            raise RuntimeError(f"{folder} not found in {src}")
+        shutil.copytree(src / folder, target)
+    else:
+        print(f"already present: {target}")
+    n, digest = tree_hash(target)
+    print(f"tree sha256 {digest}  ({n} files in {folder})")
+
+
+def save_remote_index(src: dict, out_dir: Path) -> None:
+    """Member list of a remote zip (central directory only, via range requests)."""
+    import json
+
+    from promptshift.data.remote_zip import open_remote_zip
+
+    index = out_dir / (src["extracted"] + ".index.json")
+    if index.is_file():
+        print(f"remote index exists: {index}")
+        return
+    with open_remote_zip(src["url"]) as zf:
+        names = [i.filename for i in zf.infolist() if not i.is_dir()]
+    index.write_text(json.dumps(names, indent=0) + "\n", encoding="utf-8")
+    print(f"wrote {index} ({len(names)} members, read remotely)")
+
+
 def fetch(name: str, data_dir: Path, force: bool = False, skip_images: bool = False) -> Path:
     out_dir = data_dir / name
     out_dir.mkdir(parents=True, exist_ok=True)
+    if name in KAGGLE:
+        fetch_kaggle(name, out_dir, force)
+        return out_dir
     for src in SOURCES[name]:
         if skip_images and src.get("images"):
             print(f"skipping image archive {src['archive']} (--skip-images)")
+            if name == "isic2018":
+                save_remote_index(src, out_dir)
             continue
         fetch_archive(src, out_dir, force)
     return out_dir
@@ -128,7 +198,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawTextHelpFormatter
     )
-    parser.add_argument("--dataset", required=True, choices=sorted(SOURCES))
+    parser.add_argument("--dataset", required=True, choices=sorted([*SOURCES, *KAGGLE]))
     parser.add_argument("--root", type=Path, default=None, help="storage root (default: paths.py)")
     parser.add_argument("--force", action="store_true", help="re-download and re-extract")
     parser.add_argument("--skip-images", action="store_true", help="skip large image archives")

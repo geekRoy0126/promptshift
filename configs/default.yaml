@@ -14,6 +14,8 @@ data:
     min_area_frac: 0.01        # keep iscrowd=0 instances with area >= 1% of the image
     n_instances: 1000
     sample_seed: 42
+  busi:
+    drop_normal: true          # normal images have no lesion (CLAUDE.md 6.1)
 
 metrics:
   nsd_tolerance_px: 2
@@ -44,3 +46,23 @@ analysis:
   bootstrap_n: 2000
   bootstrap_seed: 42
   ci: 0.95
+
+baselines:
+  classical:                 # CLAUDE.md 6.7; grid searched on train only
+    channel: [lab_L, lab_a, lab_b, hsv_s, hsv_v]
+    polarity: [high, low]
+    sigma: [1, 2, 4]
+    radius: [2, 5, 10]
+    select_on: train
+  unet:                      # CLAUDE.md 6.6 default (no course_ref/)
+    encoder: resnet34
+    encoder_weights: imagenet
+    input_size: 352
+    epochs: 60
+    batch_size: 8
+    lr: 1.0e-4
+    weight_decay: 1.0e-4
+    seed: 0
+    num_workers: 2
+    color_jitter: 0.1        # light brightness / contrast / saturation jitter
+    threshold: 0.5
