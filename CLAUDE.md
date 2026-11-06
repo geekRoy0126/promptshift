@@ -246,6 +246,10 @@ if x1'-x0' < 2 or y1'-y0' < 2: resample with the same rng, up to 10 times; if st
 
 **Ties**: wherever an argmax is taken (e.g. the DT center), use the first index in row-major order.
 
+**Resampling count**: "up to 10 times" means at most 1 + 10 draws in total (`max_resample: 10` in the config).
+
+**Image border in the click DT**: the distance transform is computed on the object mask padded with one background pixel, so the image border counts as object boundary (DT = 1 on border pixels). Otherwise an object cut by the image border would get its "center" on the border. This matches the metrics, where border pixels are surface pixels.
+
 **Record `box_iou` for every perturbation**: IoU between the perturbed box and the GT box, usable later as a model-independent x-axis.
 
 **Click offset `point_offset`** (implemented + unit-tested in P1; experiments in P2): levels `d ∈ {0, 0.25, 0.5, 0.75, 1.0}`.

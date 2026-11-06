@@ -8,7 +8,7 @@ A = Ruoyu Wang · B = Hao Wang · C = Jiani He. Commit messages start with `[A]`
 |---|---|---|---|
 | P1-1 Repo skeleton, environment, tests | A | done | AI-assisted (see AI_USAGE_LOG.md) |
 | P1-2 Metrics | A | done | AI-assisted (see AI_USAGE_LOG.md) |
-| P1-3 Prompt simulator | A | todo | |
+| P1-3 Prompt simulator | A | done | AI-assisted (see AI_USAGE_LOG.md) |
 | P1-4 Kvasir loader, split, statistics | A | todo | |
 | P1-5 ISIC / BUSI / COCO loaders | B / C / A | todo | |
 | P1-6 SAM / MedSAM wrappers + parity | A | todo | |
