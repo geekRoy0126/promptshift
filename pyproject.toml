@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "promptshift"
+version = "0.1.0"
+description = "Prompt robustness of SAM / MedSAM compared with a supervised U-Net (CS 5330 Team 04)"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ruoyu Wang" },
+    { name = "Hao Wang" },
+    { name = "Jiani He" },
+]
+# torch / torchvision are deliberately not listed: Colab ships its own build,
+# and the local CPU build is installed separately (see README).
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "pyyaml>=6.0",
+    "pillow>=10.0",
+    "matplotlib>=3.7",
+    "tqdm>=4.65",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["third_party", "course_ref"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "slow: needs real model weights or large data; skipped when they are missing",
+]

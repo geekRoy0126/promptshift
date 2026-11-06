@@ -1,0 +1,16 @@
+# Runtime dependencies. torch / torchvision are NOT pinned or listed:
+# on Colab use the preinstalled build; locally install the CPU build separately.
+numpy>=1.24
+scipy>=1.10
+pandas>=2.0
+pyyaml>=6.0
+pillow>=10.0
+matplotlib>=3.7
+tqdm>=4.65
+
+# Dev
+pytest>=7.4
+ruff>=0.5
+
+# Later Phase 1 tasks add their dependencies here (segment_anything, scikit-image,
+# segmentation-models-pytorch, gdown, pycocotools, ...) when the code that needs them lands.

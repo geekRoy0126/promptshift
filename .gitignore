@@ -1,0 +1,42 @@
+# Large artifacts: never in git (CLAUDE.md 2.8)
+data/
+weights/
+embeddings/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.npy
+*.npz
+*.zip
+*.tar
+*.tar.gz
+results/**/masks/
+results/**/preds/
+
+# Secrets
+kaggle.json
+.env
+*.token
+
+# Third-party clones used only for parity checks (vendored code, if ever needed, goes in third_party/)
+external/
+
+# Python / tooling
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

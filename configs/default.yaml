@@ -1,0 +1,42 @@
+# Default hyperparameters. Experiment configs (e.g. p1_kvasir_pilot.yaml) override these.
+# Nothing in src/ hard-codes these values (CLAUDE.md 2.6).
+
+global_seed: 42
+
+data:
+  mask_threshold: 127        # Kvasir JPEG masks: mask = gray > 127
+  min_object_frac: 0.001     # connected components smaller than this fraction of H*W are specks
+  connectivity: 8
+  split:
+    seed: 42
+    fractions: {train: 0.7, val: 0.1, test: 0.2}
+
+metrics:
+  nsd_tolerance_px: 2
+
+prompts:
+  box_jitter:
+    levels: [0.0, 0.05, 0.10, 0.20, 0.30, 0.50]
+    seeds: [0, 1, 2]
+    max_resample: 10
+    min_box_side: 2
+  box_scale:
+    levels: [0.8, 0.9, 1.0, 1.1, 1.25, 1.5]
+    seeds: [0]
+    min_box_side: 2
+  point_offset:
+    levels: [0.0, 0.25, 0.5, 0.75, 1.0]
+    seeds: [0, 1, 2]
+    band: 0.05
+
+models:
+  device: auto               # cuda > mps > cpu
+  dtype: float32             # no AMP (needed for MedSAM parity)
+
+runner:
+  flush_every: 10
+
+analysis:
+  bootstrap_n: 2000
+  bootstrap_seed: 42
+  ci: 0.95
