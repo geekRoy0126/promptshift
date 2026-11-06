@@ -40,3 +40,6 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+
+# Smoke runs are pipeline checks, not results
+results/raw/*smoke*/

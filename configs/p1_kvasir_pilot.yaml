@@ -1,0 +1,8 @@
+# P1-9 pilot: Kvasir-SEG test split x 3 models x (box jitter 6 levels x 3 seeds + box scale 6 levels)
+# = 24 configurations per image. Merged on top of default.yaml.
+exp_id: p1_kvasir_pilot
+dataset: kvasir_seg
+split: test
+models: [sam_vit_b, sam_vit_h, medsam]
+perturbations: [box_jitter, box_scale]
+max_images: null          # null = whole split

@@ -12,3 +12,4 @@
 - **Done**: P1-4 (Kvasir-SEG downloaded locally to `data/kvasir_seg/`, 1000 pairs; `splits/kvasir_seg.json` 700/100/200; `docs/data_stats.md`; `figures/data_kvasir_seg_samples.png`).
 - **Done**: P1-5 COCO part (annotations only locally; 1000 instances sampled; `splits/coco_val2017.json`; 5-sample figure). ISIC (B) and BUSI (C) still open.
 - **Done**: P1-6 (SAM / MedSAM / mock wrappers; MedSAM parity Dice 1.0 on 3 images and SAM ViT-B pixel-identical, both on local CPU; ViT-H + GPU parity pending on Colab).
+- **Done**: P1-7 (runner + resume; local CPU smoke 5 images × sam_vit_b + medsam, 120/120 rows each). **Next: P1-8 needs the GitHub URL from the human.**
