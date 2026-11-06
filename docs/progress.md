@@ -2,9 +2,9 @@
 
 ## 2026-11-05 (A, with Claude Code)
 
-- **Current step**: P1-4 Kvasir loader + split + statistics (done).
-- **Next step**: P1-5 COCO loader + download verification (A part), then P1-6 model wrappers.
-- **Blockers**: TA confirmation of the allowed AI-use level (2026-11-06). No official Phase 1 spec yet (defaults apply).
+- **Current step**: A tasks P1-1 … P1-7 and the A part of P1-14 done; stopped before P1-8 (GitHub URL needed).
+- **Next step**: P1-8 notebooks P1_00–P1_03 (needs GitHub URL + `GH_TOKEN` Colab secret), then C1–C5 on Colab, then P1-9 pilot.
+- **Blockers**: GitHub URL (P1-8). TA confirmation of allowed AI use (2026-11-06). Open: U-Net / classical CSV paths (B, C); COCO instance = one object (team). Outer `D:5330CLAUDE.md` is outdated (not touched).
 - **Environment**: Miniconda installed per-user at `C:\Users\ruoyu\miniconda3` (2026-11-05, via winget). Env `promptshift` = Python 3.11.18 from conda-forge (`--override-channels -c conda-forge`, avoids the Anaconda default-channel ToS). `pip install -e ".[dev]"` done.
 - **Done**: P1-1 (`ruff check .` clean, `pytest -q` 15 passed).
 - **Done**: P1-2 (`metrics.py`; matches MONAI 1.6.1; local env now also has torch 2.15.0+cpu and monai 1.6.1).
