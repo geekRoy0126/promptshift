@@ -119,7 +119,9 @@ promptshift/
 │   ├── train_unet.py
 │   ├── run_classical.py
 │   ├── make_figures.py
-│   └── make_report_tables.py
+│   ├── make_report_tables.py # tables + renders reports/phase1_report.md from the template
+│   ├── model_parity.py       # P1-6 acceptance: MedSAM vs official script, SAM vs SamPredictor
+│   └── make_debug_prompts.py # figures/debug_prompts.png
 ├── notebooks/                # keep thin: clone repo → pip install -e . → call scripts
 │   ├── P1_00_setup_colab.ipynb
 │   ├── P1_01_data_check.ipynb
@@ -131,7 +133,11 @@ promptshift/
 ├── results/{raw,summary}/
 ├── figures/
 ├── docs/{decisions,leakage,data_stats,progress}.md
-└── reports/phase1_report.md
+├── external/                 # git-ignored; pinned clone of bowang-lab/MedSAM for the parity test
+└── reports/
+    ├── phase1_report.template.md   # edit this (prose only)
+    ├── phase1_report.md            # generated; do not edit
+    └── tables/*.md                 # generated
 ```
 
 **Paths**: on Colab, data, weights and results live under `/content/drive/MyDrive/promptshift/` so a disconnect loses nothing. Locally they live under `data/`, `weights/`, `results/` in the repo. Only `paths.py` knows about locations; all other code uses `pathlib` and never hard-codes paths.

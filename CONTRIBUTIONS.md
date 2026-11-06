@@ -19,4 +19,4 @@ A = Ruoyu Wang · B = Hao Wang · C = Jiani He. Commit messages start with `[A]`
 | P1-11 Classical baseline (recommended) | C | todo | |
 | P1-12 Analysis and figures | C | todo | |
 | P1-13 Leakage check | B | todo | |
-| P1-14 Report, contributions, AI log | All | todo | |
+| P1-14 Report, contributions, AI log | All | A: tables script + report template done; pilot numbers TBD | A part AI-assisted (see AI_USAGE_LOG.md) |

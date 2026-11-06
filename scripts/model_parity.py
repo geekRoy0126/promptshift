@@ -16,6 +16,7 @@ Writes results/parity/medsam_parity.csv and results/parity/sam_parity.csv
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import subprocess
 import sys
@@ -148,6 +149,21 @@ def sam_parity(paths, ds, image_ids, variants, device) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def write_environment(path: Path, device: str) -> None:
+    import platform
+
+    import torch
+
+    env = {
+        "device": device,
+        "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "none",
+        "torch": torch.__version__,
+        "python": platform.python_version(),
+        "platform": platform.system(),
+    }
+    path.write_text(json.dumps(env, indent=1), encoding="utf-8")
+
+
 def main() -> int:
     paths = get_paths()
     parser = argparse.ArgumentParser(
@@ -164,6 +180,7 @@ def main() -> int:
     image_ids = pick_images(ds, N_IMAGES)
     out_dir = paths.results / "parity"
     out_dir.mkdir(parents=True, exist_ok=True)
+    write_environment(out_dir / "environment.json", device)
     ok = True
     print(f"device: {device}; images: {image_ids}")
 

@@ -1,0 +1,7 @@
+{
+ "device": "cpu",
+ "gpu": "none",
+ "torch": "2.15.0+cpu",
+ "python": "3.11.18",
+ "platform": "Windows"
+}

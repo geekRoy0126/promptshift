@@ -13,3 +13,4 @@
 - **Done**: P1-5 COCO part (annotations only locally; 1000 instances sampled; `splits/coco_val2017.json`; 5-sample figure). ISIC (B) and BUSI (C) still open.
 - **Done**: P1-6 (SAM / MedSAM / mock wrappers; MedSAM parity Dice 1.0 on 3 images and SAM ViT-B pixel-identical, both on local CPU; ViT-H + GPU parity pending on Colab).
 - **Done**: P1-7 (runner + resume; local CPU smoke 5 images × sam_vit_b + medsam, 120/120 rows each). **Next: P1-8 needs the GitHub URL from the human.**
+- **Done**: P1-14 A part (`scripts/make_report_tables.py`, `reports/phase1_report.template.md` → generated `reports/phase1_report.md`; pilot sections TBD).
