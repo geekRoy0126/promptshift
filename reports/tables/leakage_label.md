@@ -1,1 +1,1 @@
-Kvasir-SEG in MedSAM training data (from `docs/leakage.md`): **unknown**
+Kvasir-SEG in MedSAM training data (from `docs/leakage.md`): **unseen**

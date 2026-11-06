@@ -46,7 +46,7 @@ flowchart LR
 
 Full statistics (image sizes, objects per image, object area fractions, specks removed): `docs/data_stats.md`.
 
-Kvasir-SEG in MedSAM training data (from `docs/leakage.md`): **unknown**
+Kvasir-SEG in MedSAM training data (from `docs/leakage.md`): **unseen**
 
 ### 3.2 Model parity
 
