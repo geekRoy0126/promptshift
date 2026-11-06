@@ -1,7 +1,7 @@
 # Large artifacts: never in git (CLAUDE.md 2.8)
-data/
-weights/
-embeddings/
+/data/
+/weights/
+/embeddings/
 *.pth
 *.pt
 *.ckpt

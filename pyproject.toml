@@ -23,6 +23,10 @@ dependencies = [
     "pillow>=10.0",
     "matplotlib>=3.7",
     "tqdm>=4.65",
+    "scikit-image>=0.21",   # MedSAM preprocessing (official resize)
+    "pycocotools>=2.0.7",   # COCO masks
+    "gdown>=5.0",           # MedSAM weights (Google Drive)
+    "segment_anything @ git+https://github.com/facebookresearch/segment-anything.git",
 ]
 
 [project.optional-dependencies]

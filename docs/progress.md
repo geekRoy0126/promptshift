@@ -10,3 +10,4 @@
 - **Done**: P1-2 (`metrics.py`; matches MONAI 1.6.1; local env now also has torch 2.15.0+cpu and monai 1.6.1).
 - **Done**: P1-3 (`prompts/`: box_jitter, box_scale, point_offset + registry; `figures/debug_prompts.png` from synthetic masks).
 - **Done**: P1-4 (Kvasir-SEG downloaded locally to `data/kvasir_seg/`, 1000 pairs; `splits/kvasir_seg.json` 700/100/200; `docs/data_stats.md`; `figures/data_kvasir_seg_samples.png`).
+- **Done**: P1-5 COCO part (annotations only locally; 1000 instances sampled; `splits/coco_val2017.json`; 5-sample figure). ISIC (B) and BUSI (C) still open.
