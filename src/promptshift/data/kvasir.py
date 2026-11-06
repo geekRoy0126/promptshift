@@ -78,7 +78,8 @@ class KvasirSeg:
             raise RuntimeError("no split file given")
         missing = [i for i in self.split[split] if i not in self.pairs]
         if missing:
-            raise FileNotFoundError(f"{len(missing)} {split} ids missing on disk, e.g. {missing[:3]}")
+            msg = f"{len(missing)} {split} ids missing on disk, e.g. {missing[:3]}"
+            raise FileNotFoundError(msg)
         return list(self.split[split])
 
     def get(self, image_id: str) -> Sample:

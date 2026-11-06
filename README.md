@@ -22,7 +22,8 @@ conda activate promptshift
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu   # needed from P1-6 on
 pip install -e ".[dev]"
 ruff check .
-pytest -q            # fast, offline; tests needing real weights are marked slow and skip
+pytest -q            # fast, offline (mock model only)
+pytest -q -m slow    # real-weight tests; skip if weights are missing
 ```
 
 ## Results

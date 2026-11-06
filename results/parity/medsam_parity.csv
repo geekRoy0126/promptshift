@@ -1,0 +1,4 @@
+image_id,box,dice_ours_vs_official,pixels_differ,dice_ours_vs_gt,dice_official_vs_gt,pass,official_seconds
+cju0qoxqj9q6s0835b43399p4,"[195, 285, 912, 1048]",1.0,0,0.9692752961975506,0.9692752961975506,True,22.4
+cju0s2a9ekvms080138tjjpxr,"[380, 58, 625, 430]",1.0,0,0.9882920548681706,0.9882920548681706,True,25.4
+cju0tl3uz8blh0993wxvn7ly3,"[315, 387, 369, 434]",1.0,0,0.9508098380323935,0.9508098380323935,True,26.0

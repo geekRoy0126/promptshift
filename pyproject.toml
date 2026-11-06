@@ -45,7 +45,7 @@ select = ["E", "F", "W", "I", "B", "UP"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+addopts = "-ra -m 'not slow'"
 markers = [
     "slow: needs real model weights or large data; skipped when they are missing",
 ]

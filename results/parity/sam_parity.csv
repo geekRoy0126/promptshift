@@ -1,0 +1,4 @@
+model,image_id,identical,pixels_differ,dice_vs_gt
+sam_vit_b,cju0qoxqj9q6s0835b43399p4,True,0,0.9056755382430824
+sam_vit_b,cju0s2a9ekvms080138tjjpxr,True,0,0.9800696163921484
+sam_vit_b,cju0tl3uz8blh0993wxvn7ly3,True,0,0.9168734491315137

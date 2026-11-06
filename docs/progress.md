@@ -11,3 +11,4 @@
 - **Done**: P1-3 (`prompts/`: box_jitter, box_scale, point_offset + registry; `figures/debug_prompts.png` from synthetic masks).
 - **Done**: P1-4 (Kvasir-SEG downloaded locally to `data/kvasir_seg/`, 1000 pairs; `splits/kvasir_seg.json` 700/100/200; `docs/data_stats.md`; `figures/data_kvasir_seg_samples.png`).
 - **Done**: P1-5 COCO part (annotations only locally; 1000 instances sampled; `splits/coco_val2017.json`; 5-sample figure). ISIC (B) and BUSI (C) still open.
+- **Done**: P1-6 (SAM / MedSAM / mock wrappers; MedSAM parity Dice 1.0 on 3 images and SAM ViT-B pixel-identical, both on local CPU; ViT-H + GPU parity pending on Colab).
