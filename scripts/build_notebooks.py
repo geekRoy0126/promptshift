@@ -2,7 +2,7 @@
 then run `python scripts/build_notebooks.py`. tests/test_notebooks.py checks they are in sync.
 
 Every notebook = a parameters cell, the shared SETUP cell, then thin calls to scripts/.
-SETUP mounts Drive, fetches the private repo with the Colab secret GH_TOKEN (sent as an HTTP
+SETUP mounts Drive, fetches the repo (public; with the Colab secret GH_TOKEN if set, sent as an HTTP
 header only: never printed, never written to disk), and runs `pip install -e .`.
 Run locally (not on Colab), SETUP uses the checkout the notebook lives in, so the same
 notebooks can be smoke-tested on CPU.
@@ -37,20 +37,19 @@ if IN_COLAB:
 
     drive.mount("/content/drive")
     REPO = Path("/content/promptshift")
-    try:
+    try:  # optional: the repo is public; GH_TOKEN is only needed if it is made private again
         _token = userdata.get("GH_TOKEN")
-    except Exception as e:  # missing secret or notebook access not granted
-        raise RuntimeError(
-            "Add the Colab secret GH_TOKEN (key icon in the left bar) and switch on "
-            "'Notebook access' for it."
-        ) from e
-    _auth = base64.b64encode(f"x-access-token:{{_token}}".encode()).decode()
+    except Exception:  # secret missing or notebook access not granted
+        _token = ""
+    _auth = base64.b64encode(f"x-access-token:{{_token}}".encode()).decode() if _token else ""
 
     def _git(*args, auth=False):
-        pre = ["-c", f"http.extraHeader=Authorization: Basic {{_auth}}"] if auth else []
+        pre = ["-c", f"http.extraHeader=Authorization: Basic {{_auth}}"] if auth and _auth else []
         r = subprocess.run(["git", *pre, "-C", str(REPO), *args], capture_output=True, text=True)
         if r.returncode:
-            msg = (r.stderr or r.stdout).replace(_token, "***").replace(_auth, "***")
+            msg = r.stderr or r.stdout
+            for s in (_token, _auth):
+                msg = msg.replace(s, "***") if s else msg
             raise RuntimeError(f"git {{args[0]}} failed: {{msg}}")
 
     REPO.mkdir(parents=True, exist_ok=True)
@@ -109,8 +108,8 @@ print(f"repo {{REPO}} @ {{SHA}} (Colab: {{IN_COLAB}})")
 
 PREREQ = """\
 **Before you start** (once per Google account):
-1. Colab left bar → 🔑 *Secrets* → add `GH_TOKEN` (a GitHub fine-grained token with read access
-   to `geekRoy0126/promptshift`) and switch on *Notebook access*. Never paste the token into a cell.
+1. (Only if the repo is private again) Colab left bar → 🔑 *Secrets* → add `GH_TOKEN` (read access
+   to `geekRoy0126/promptshift`), switch on *Notebook access*. Never paste a token into a cell.
 2. *Runtime → Change runtime type → T4 GPU*.
 3. *Runtime → Run all*. Allow Google Drive access when asked.
 
