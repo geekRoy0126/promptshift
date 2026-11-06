@@ -167,10 +167,13 @@ NOTEBOOKS["P1_00_setup_colab"] = [
         "# P1_00 · Colab setup: weights and data to Drive\n\n"
         "Downloads and verifies the model weights (SAM ViT-B ≈ 375 MB, SAM ViT-H ≈ 2.4 GB, "
         "MedSAM ≈ 375 MB) and the datasets (Kvasir-SEG ≈ 46 MB, COCO val2017 annotations ≈ "
-        "250 MB) into `MyDrive/promptshift/`, and records the Colab software versions.\n\n"
-        + PREREQ
+        "250 MB, ISIC 2018 masks ≈ 27 MB, BUSI ≈ 195 MB) into `MyDrive/promptshift/`, and "
+        "records the Colab software versions.\n\n" + PREREQ
     ),
-    params('WEIGHTS = ["sam_vit_b", "sam_vit_h", "medsam"]\n'),
+    params(
+        'WEIGHTS = ["sam_vit_b", "sam_vit_h", "medsam"]\n'
+        'DATASETS = ["kvasir_seg", "coco_val2017", "isic2018", "busi"]\n'
+    ),
     setup(),
     md("## 1. Environment\nSaved to `MyDrive/promptshift/results/environment_colab.json`."),
     code(
@@ -202,11 +205,14 @@ NOTEBOOKS["P1_00_setup_colab"] = [
     ),
     md(
         "## 3. Datasets\n"
-        "COCO: annotations only. The few COCO images needed are fetched one by one later."
+        "COCO and ISIC: annotations only (`--skip-images`); the few images the checks need are "
+        "fetched one by one later (the ISIC image zip is 11 GB and only needed in P2). "
+        "BUSI comes from Kaggle via `kagglehub` (public dataset, no key needed)."
     ),
     code(
-        'run("scripts/download_data.py", "--dataset", "kvasir_seg")\n'
-        'run("scripts/download_data.py", "--dataset", "coco_val2017", "--skip-images")\n'
+        "for name in DATASETS:\n"
+        '    skip = ["--skip-images"] if name in ("coco_val2017", "isic2018") else []\n'
+        '    run("scripts/download_data.py", "--dataset", name, *skip)\n'
     ),
     md("## 4. What is on Drive now"),
     code(
@@ -221,12 +227,13 @@ NOTEBOOKS["P1_00_setup_colab"] = [
 NOTEBOOKS["P1_01_data_check"] = [
     md(
         "# P1_01 · Data check\n\n"
-        "Runs `scripts/check_data.py` for Kvasir-SEG and COCO val2017 on Colab and compares the "
-        "result with the versions committed to the repo. Expected: Kvasir 1000 image/mask pairs, "
-        "`CHECK OK`, split files and `docs/data_stats.md` unchanged.\n\n"
+        "Runs `scripts/check_data.py` for Kvasir-SEG, COCO val2017, ISIC 2018 and BUSI on Colab "
+        "and compares the result with the versions committed to the repo. Expected: `CHECK OK` "
+        "for each (Kvasir 1000 pairs, ISIC 2594, BUSI 437 / 210 / 133 per class), split files "
+        "and `docs/data_stats.md` unchanged. ISIC reads 2594 large masks: about 10 min.\n\n"
         "Needs P1_00 first.\n\n" + PREREQ
     ),
-    params('DATASETS = ["kvasir_seg", "coco_val2017"]\n'),
+    params('DATASETS = ["kvasir_seg", "coco_val2017", "isic2018", "busi"]\n'),
     setup(),
     md("## 1. Check each dataset"),
     code(

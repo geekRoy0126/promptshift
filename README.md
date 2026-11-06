@@ -21,8 +21,8 @@ Then, for each notebook in order: *File → Open notebook → GitHub* (tick *Inc
 
 | Notebook | What it does | Time (T4, rough) |
 |---|---|---|
-| `P1_00_setup_colab` | weights (SAM ViT-B / ViT-H, MedSAM, checksums verified) and data (Kvasir-SEG, COCO annotations) to Drive; records Colab versions | 10–15 min |
-| `P1_01_data_check` | `check_data.py` on Colab; split files and `docs/data_stats.md` must match the repo | 3–5 min |
+| `P1_00_setup_colab` | weights (SAM ViT-B / ViT-H, MedSAM, checksums verified) and data (Kvasir-SEG, COCO and ISIC annotations, BUSI) to Drive; records Colab versions | 10–15 min |
+| `P1_01_data_check` | `check_data.py` for all four datasets on Colab; split files and `docs/data_stats.md` must match the repo | 15–20 min |
 | `P1_02_medsam_parity` | MedSAM vs. official script (Dice ≥ 0.99) and SAM ViT-B / ViT-H vs. `SamPredictor` (identical) on GPU | 5 min |
 | `P1_03_kvasir_box_pilot` | Kvasir pilot: 200 test images × 3 models × 24 configs; integrity check; report tables; qualitative examples; downloads a results zip | 30–60 min |
 | `P1_04_unet_kvasir` | U-Net baseline: train on 700 images (60 epochs, resumable), pick best val Dice, test on the same 200 images; downloads a results zip | 20–30 min |
