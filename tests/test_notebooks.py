@@ -23,6 +23,7 @@ def load(name):
 def test_expected_notebooks():
     assert NAMES == [
         "P1_00_setup_colab", "P1_01_data_check", "P1_02_medsam_parity", "P1_03_kvasir_box_pilot",
+        "P1_04_unet_kvasir",
     ]  # fmt: skip
 
 

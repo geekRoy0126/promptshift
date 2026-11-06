@@ -138,6 +138,28 @@ def setup() -> dict:
     return code(SETUP)
 
 
+def export_cell(parts_expr: str, label: str) -> dict:
+    """Zip result files (paths relative to results/), keep a copy on Drive, download it."""
+    return code(
+        "import zipfile\n\n"
+        'export = paths.root / "export"\n'
+        "export.mkdir(exist_ok=True)\n"
+        f'zip_path = export / f"{label.lower()}_{{EXP_ID}}_{{SHA}}.zip"\n'
+        f"parts = {parts_expr}\n"
+        'with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:\n'
+        "    for part in parts:\n"
+        '        files = [part] if part.is_file() else sorted(part.rglob("*"))\n'
+        "        for f in files:\n"
+        "            if f.is_file():\n"
+        "                z.write(f, f.relative_to(paths.results))\n"
+        'print(f"wrote {zip_path} ({zip_path.stat().st_size / 2**20:.1f} MB)")\n'
+        "if IN_COLAB:\n"
+        "    from google.colab import files\n\n"
+        "    files.download(str(zip_path))\n"
+        f'print("\\n{label} done. Unzip it into the repo folder results/ and tell Claude.")\n'
+    )
+
+
 NOTEBOOKS: dict[str, list[dict]] = {}
 
 NOTEBOOKS["P1_00_setup_colab"] = [
@@ -344,30 +366,73 @@ NOTEBOOKS["P1_03_kvasir_box_pilot"] = [
         ".read_text()))\n"
     ),
     md(
-        "## 4. Export\n"
-        "Zips `raw/<EXP_ID>/`, `parity/`, `summary/`, `colab_check/` and "
+        "## 4. Qualitative examples\n"
+        "Runs the models on 3 test images (box jitter 0 / 10 / 30 / 50 %) and saves "
+        "`MyDrive/promptshift/results/figures/p1_kvasir_examples.png`. The other figures are "
+        "made from the CSVs by `scripts/make_figures.py` after the export."
+    ),
+    code(
+        "from IPython.display import Image\n\n"
+        'run("scripts/make_figures.py", "--examples-only", "--exp-id", EXP_ID,\n'
+        '    "--out-dir", paths.results / "figures", *(["--models", *MODELS] if MODELS else []))\n'
+        'display(Image(filename=str(paths.results / "figures" / "p1_kvasir_examples.png")))\n'
+    ),
+    md(
+        "## 5. Export\n"
+        "Zips `raw/<EXP_ID>/`, `parity/`, `summary/`, `figures/`, `colab_check/` and "
         "`environment_colab.json` from `MyDrive/promptshift/results/` (paths inside the zip are "
         "relative to `results/`). A copy stays in `MyDrive/promptshift/export/`."
     ),
-    code(
-        "import zipfile\n\n"
-        'export = paths.root / "export"\n'
-        "export.mkdir(exist_ok=True)\n"
-        'zip_path = export / f"{EXP_ID}_results_{SHA}.zip"\n'
-        "parts = [exp_dir, *(paths.results / p for p in\n"
-        '         ("parity", "summary", "colab_check", "environment_colab.json"))]\n'
-        'with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:\n'
-        "    for part in parts:\n"
-        '        files = [part] if part.is_file() else sorted(part.rglob("*"))\n'
-        "        for f in files:\n"
-        "            if f.is_file():\n"
-        "                z.write(f, f.relative_to(paths.results))\n"
-        'print(f"wrote {zip_path} ({zip_path.stat().st_size / 2**20:.1f} MB)")\n'
-        "if IN_COLAB:\n"
-        "    from google.colab import files\n\n"
-        "    files.download(str(zip_path))\n"
-        'print("\\nP1_03 done. Unzip it into the repo folder results/ and tell Claude.")\n'
+    export_cell(
+        "[exp_dir, *(paths.results / p for p in\n"
+        '         ("parity", "summary", "figures", "colab_check", "environment_colab.json"))]',
+        "P1_03",
     ),
+]
+
+NOTEBOOKS["P1_04_unet_kvasir"] = [
+    md(
+        "# P1_04 · U-Net baseline on Kvasir-SEG (P1-10)\n\n"
+        "Trains `smp.Unet(resnet34, imagenet)` on the Kvasir train split (700 images, 352×352, "
+        "60 epochs, AdamW, cosine schedule, BCE + Dice), keeps the checkpoint with the best val "
+        "Dice, and evaluates it once on the same 200 test images as the foundation models. "
+        "Roughly 20–30 min on a T4.\n\n"
+        "**Resumable**: the last checkpoint is saved to Drive after every epoch; after a "
+        "disconnect just *Run all* again.\n\n"
+        "Outputs: `MyDrive/promptshift/results/raw/<EXP_ID>/unet.csv`, `unet_history.csv`, "
+        "`unet_train.json`; checkpoints in `MyDrive/promptshift/checkpoints/<EXP_ID>/`. "
+        "At the end a zip of the result files is downloaded: unzip it into the repo folder "
+        "`results/` and tell Claude Code. Needs P1_00 first.\n\n" + PREREQ
+    ),
+    params(
+        'EXP_ID = "p1_kvasir_pilot"\n'
+        "EPOCHS = None  # None = config value (60); a small number = quick smoke run\n"
+    ),
+    setup(),
+    code("check_gpu()\n"),
+    md("## 1. Train and test"),
+    code(
+        'args = ["scripts/train_unet.py", "--exp-id", EXP_ID]\n'
+        "if EPOCHS:\n"
+        '    args += ["--epochs", EPOCHS]\n'
+        "run(*args)\n"
+    ),
+    md("## 2. Result"),
+    code(
+        "import json\n\n"
+        "import pandas as pd\n"
+        "from IPython.display import display\n\n"
+        "from promptshift.paths import get_paths\n\n"
+        "paths = get_paths()\n"
+        "exp_dir = paths.raw_results / EXP_ID\n"
+        'record = json.loads((exp_dir / "unet_train.json").read_text())\n'
+        "print(json.dumps(record, indent=1))\n"
+        'display(pd.read_csv(exp_dir / "unet_history.csv").tail())\n'
+        'test = pd.read_csv(exp_dir / "unet.csv")\n'
+        'assert len(test) == record["n_test"] and (test["flag"] == "ok").all()\n'
+    ),
+    md("## 3. Export"),
+    export_cell('sorted(exp_dir.glob("unet*"))', "P1_04"),
 ]
 
 

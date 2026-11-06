@@ -128,7 +128,7 @@ promptshift/
 │   ├── P1_01_data_check.ipynb
 │   ├── P1_02_medsam_parity.ipynb
 │   ├── P1_03_kvasir_box_pilot.ipynb
-│   └── P1_04_unet_kvasir.ipynb   # owner B; add it to build_notebooks.py
+│   └── P1_04_unet_kvasir.ipynb
 ├── splits/kvasir_seg.json    # committed
 ├── tests/
 ├── results/{raw,summary}/
