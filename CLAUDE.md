@@ -121,13 +121,14 @@ promptshift/
 │   ├── make_figures.py
 │   ├── make_report_tables.py # tables + renders reports/phase1_report.md from the template
 │   ├── model_parity.py       # P1-6 acceptance: MedSAM vs official script, SAM vs SamPredictor
-│   └── make_debug_prompts.py # figures/debug_prompts.png
+│   ├── make_debug_prompts.py # figures/debug_prompts.png
+│   └── build_notebooks.py    # generates notebooks/*.ipynb (edit this, not the notebooks)
 ├── notebooks/                # keep thin: clone repo → pip install -e . → call scripts
 │   ├── P1_00_setup_colab.ipynb
 │   ├── P1_01_data_check.ipynb
 │   ├── P1_02_medsam_parity.ipynb
 │   ├── P1_03_kvasir_box_pilot.ipynb
-│   └── P1_04_unet_kvasir.ipynb
+│   └── P1_04_unet_kvasir.ipynb   # owner B; add it to build_notebooks.py
 ├── splits/kvasir_seg.json    # committed
 ├── tests/
 ├── results/{raw,summary}/
