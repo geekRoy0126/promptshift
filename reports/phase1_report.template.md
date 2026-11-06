@@ -61,17 +61,25 @@ Test split × 3 models × box jitter (6 levels × 3 seeds) + box scale (6 levels
 
 <!-- include: tables/p1_pilot_delta.md -->
 
-Figure: `figures/p1_kvasir_box_jitter.png` (P1-12, owner C; U-Net reference line from P1-10, owner B) — TBD.
+Figure: `figures/p1_kvasir_box_jitter.png` (lines = foundation models with 95% CI bands; dashed = U-Net, dotted = classical baseline, both without prompts).
 
 ### 4.3 Box scale
 
 <!-- include: tables/p1_pilot_box_scale.md -->
 
-Figure: `figures/p1_kvasir_box_scale.png` — TBD. Dice vs. box IoU: `figures/p1_kvasir_dice_vs_boxiou.png` — TBD.
+Figures: `figures/p1_kvasir_box_scale.png`; Dice against prompt-box IoU: `figures/p1_kvasir_dice_vs_boxiou.png`; qualitative examples: `figures/p1_kvasir_examples.png`.
 
-### 4.4 U-Net and classical baselines, preliminary crossover
+### 4.4 Prompt-free baselines and preliminary crossover
 
-TBD — U-Net (P1-10, owner B), classical baseline (P1-11, owner C), crossover and statistics (P1-12, owner C).
+Same 200 test images and the same metric code. U-Net: smp U-Net (ResNet-34, ImageNet), 352 × 352, 60 epochs, best val-Dice checkpoint (training curve: `figures/p1_kvasir_unet_curve.png`). Classical: colour channel → Gaussian → Otsu → opening/closing → largest component, parameters chosen on the training split only.
+
+<!-- include: tables/p1_baselines.md -->
+
+<!-- include: tables/p1_crossover.md -->
+
+### 4.5 Paired tests (preliminary)
+
+<!-- include: tables/p1_wilcoxon.md -->
 
 ## 5. Issues and design decisions
 
@@ -82,6 +90,8 @@ Full log with dates and reasons: `docs/decisions.md`. Main points:
 - **Parity-test trap**: the official script names its output after the input file, so a JPEG input produces a lossy JPEG mask. The parity harness feeds a lossless PNG copy.
 - **Image border**: pixels on the image border count as object boundary, both for NSD/HD95 surfaces and for click depth, so objects cut by the border are handled consistently.
 - **COCO**: one instance is one object, even when occlusion splits it into fragments (to be confirmed for P2).
+- **Leakage**: per MedSAM's supplementary tables, Kvasir-SEG was an external validation set (unseen); ISIC 2018 and BUSI were in its training pool (seen) and will be reported separately (`docs/leakage.md`).
+- **BUSI**: one image appears in both the benign and the malignant folder (byte-identical); it is kept once. The dataset paper's class count (benign 487) contradicts its own total; we check against 437.
 
 ## 6. Plan for Phase 2
 

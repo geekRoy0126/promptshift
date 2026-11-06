@@ -18,12 +18,16 @@ from pathlib import Path
 
 import pandas as pd
 
+from promptshift.analysis import stats
+from promptshift.analysis.leakage import leakage_label  # noqa: F401  (used + re-exported)
 from promptshift.config import load_config
 from promptshift.paths import get_paths
 from promptshift.runner import build_grid
 
 TBD = "TBD"
 MODEL_ORDER = ["sam_vit_b", "sam_vit_h", "medsam"]
+BASELINES = ["unet", "classical"]
+BOOT: dict = {"n": 2000, "seed": 42, "ci": 0.95}  # replaced from the config in main()
 
 
 def md_table(df: pd.DataFrame, floatfmt: str = "{:.3f}") -> str:
@@ -45,28 +49,15 @@ def tbd(why: str) -> str:
 # --- leakage label (docs/leakage.md, owner B) ----------------------------------
 
 
-def leakage_label(docs: Path, dataset_name: str) -> str:
-    """'seen' / 'unseen' / 'unknown' from the row whose first cell mentions the dataset."""
-    path = docs / "leakage.md"
-    if not path.exists():
-        return "unknown"
-    for line in path.read_text(encoding="utf-8").splitlines():
-        cells = [c.strip().lower() for c in line.strip().strip("|").split("|")]
-        if len(cells) >= 2 and dataset_name.lower() in cells[0]:
-            if cells[1].startswith("yes") or cells[1] == "seen":
-                return "seen"
-            if cells[1].startswith("no") or cells[1] == "unseen":
-                return "unseen"
-            return "unknown"
-    return "unknown"
-
-
 # --- tables ----------------------------------------------------------------------
 
 
 def table_data(paths) -> str:
     rows = []
-    for name, label in [("kvasir_seg", "Kvasir-SEG"), ("coco_val2017", "COCO val2017")]:
+    for name, label in [
+        ("kvasir_seg", "Kvasir-SEG"), ("isic2018", "ISIC 2018 (official train set)"),
+        ("busi", "BUSI (lesion images)"), ("coco_val2017", "COCO val2017"),
+    ]:
         f = paths.splits / f"{name}.json"
         if not f.exists():
             rows.append(
@@ -76,7 +67,7 @@ def table_data(paths) -> str:
         sp = json.loads(f.read_text(encoding="utf-8"))
         stats = paths.summary_results / f"data_stats_{name}.csv"
         n_obj = TBD
-        if stats.exists() and name == "kvasir_seg":
+        if stats.exists() and name != "coco_val2017":
             st = pd.read_csv(stats, dtype={"image_id": str})
             n_obj = int(st.loc[st["split"] == "test", "n_objects"].sum())
         elif name == "coco_val2017":
@@ -150,33 +141,135 @@ def per_image(df: pd.DataFrame, perturb: str) -> pd.DataFrame:
     return ok.groupby(["level", "image_id"])["dice"].mean().reset_index()
 
 
-def table_dice(raw, perturb: str, label: str) -> str:
+def fmt_ci(mean: float, lo: float, hi: float) -> str:
+    return "NaN" if pd.isna(mean) else f"{mean:.3f} [{lo:.3f}, {hi:.3f}]"
+
+
+def table_dice(raw, perturb: str, label: str, boot: dict) -> str:
     if not raw:
         return tbd("pilot not run yet")
-    cols = {}
+    cols, index = {}, None
     for m, df in raw.items():
-        pi = per_image(df, perturb)
-        cols[m] = pi.groupby("level")["dice"].mean()
-    t = pd.DataFrame(cols).reset_index().rename(columns={"level": label})
-    note = "Mean Dice over images (seeds averaged within each image first); CIs: P1-12 (owner C)."
+        c = stats.curve(df, perturb, **boot).set_index("level")
+        cols[m] = [fmt_ci(r.mean, r.lo, r.hi) for r in c.itertuples()]
+        index = c.index
+    t = pd.DataFrame(cols, index=index).reset_index().rename(columns={"level": label})
+    note = (
+        "Mean Dice over test images (seeds averaged within each image first) with a "
+        f"{boot['ci']:.0%} percentile bootstrap CI over images ({boot['n']} resamples, seed "
+        f"{boot['seed']}). Preliminary."
+    )
     return md_table(t) + "\n\n" + note
 
 
-def table_delta(raw) -> str:
+def table_delta(raw, boot: dict) -> str:
     if not raw:
         return tbd("pilot not run yet")
     rows = []
     for m, df in raw.items():
-        pi = per_image(df, "box_jitter").groupby("level")["dice"].mean()
-        d0, d20 = pi.get(0.0), pi.get(0.2)
-        rows.append({"model": m, "Dice @ 0%": d0, "Dice @ 20%": d20, "ΔDice (0 → 20%)": d0 - d20})
+        d = stats.delta_dice(df, 0.0, 0.2, **boot)
+        rows.append({
+            "model": m, "Dice @ 0%": d["d0"], "Dice @ 20%": d["d1"],
+            "ΔDice (0 → 20%) [CI]": fmt_ci(d["delta"], d["lo"], d["hi"]),
+        })  # fmt: skip
     return md_table(pd.DataFrame(rows))
+
+
+def load_baselines(paths, exp_id: str) -> dict[str, pd.DataFrame]:
+    d = paths.raw_results / exp_id
+    return {
+        b: pd.read_csv(d / f"{b}.csv", dtype={"image_id": str})
+        for b in BASELINES
+        if (d / f"{b}.csv").exists()
+    }
+
+
+def table_baselines(base, boot: dict, paths, exp_id: str) -> str:
+    """Prompt-free methods on the test split."""
+    if not base:
+        return tbd("U-Net (P1_04) and classical (scripts/run_classical.py) not run yet")
+    rows = []
+    for b, df in base.items():
+        s = stats.baseline_summary(df, **boot)
+        ok = df[df["flag"] == "ok"]
+        rows.append({
+            "method": b, "images": s["n_images"],
+            "Dice [CI]": fmt_ci(s["mean"], s["lo"], s["hi"]),
+            "IoU": ok["iou"].mean(), "NSD (2 px)": ok["nsd"].mean(),
+            "HD95 (px)": ok["hd95"].mean(),
+            "empty predictions": int((ok["pred_area_frac"] == 0).sum()),
+        })  # fmt: skip
+    out = md_table(pd.DataFrame(rows))
+    missing = [b for b in BASELINES if b not in base]
+    if missing:
+        out += f"\n\n{', '.join(missing)}: {TBD} (not run yet)."
+    out += "\n\nHD95 means exclude empty predictions (NaN); their count is the last column."
+    f = paths.raw_results / exp_id / "classical_params.json"
+    if f.exists():
+        c = json.loads(f.read_text(encoding="utf-8"))
+        p = c["params"]
+        out += (
+            f"\n\nClassical parameters (chosen by {c['selection']}): channel `{p['channel']}`, "
+            f"object = `{p['polarity']}` side of the Otsu threshold, Gaussian sigma = "
+            f"{p['sigma']}, open/close radius = {p['radius']} px; train Dice "
+            f"{c['train_dice']:.3f}, val Dice {c['val_dice']:.3f}. Grid: {c['grid']}."
+        )
+    return out
+
+
+def table_crossover(raw, base, boot: dict) -> str:
+    if not raw:
+        return tbd("pilot not run yet")
+    if "unet" not in base:
+        return tbd("U-Net not run yet (P1_04)")
+    ref = stats.baseline_summary(base["unet"], **boot)["mean"]
+    rows = []
+    for m, df in raw.items():
+        c = stats.curve(df, "box_jitter", **boot)
+        x = stats.crossover(c["level"], c["mean"], ref)
+        interp = "—" if pd.isna(x["interp"]) else f"{x['interp']:.1%}"
+        rows.append({
+            "model": m, "first jitter level below U-Net": x["label"],
+            "interpolated crossover": interp,
+        })  # fmt: skip
+    note = (
+        f"U-Net test Dice = {ref:.3f}. Crossover = first box-jitter level whose mean Dice is "
+        "below the U-Net mean, interpolated linearly between the two neighbouring levels. "
+        "Preliminary (one U-Net seed; see the Wilcoxon table for significance)."
+    )
+    return md_table(pd.DataFrame(rows)) + "\n\n" + note
+
+
+def table_wilcoxon(raw, base) -> str:
+    """Paired Wilcoxon per box-jitter level, Holm across levels, for each comparison."""
+    if not raw:
+        return tbd("pilot not run yet")
+    tabs = {m: stats.per_image(df, "box_jitter") for m, df in raw.items()}
+    present = [m for m in MODEL_ORDER if m in tabs]
+    pairs = [(a, b) for i, a in enumerate(present) for b in present[i + 1 :]]
+    rows = []
+    for a, b in pairs:
+        rows += [(f"{a} − {b}", r) for r in stats.wilcoxon_by_level(tabs[a], tabs[b]).itertuples()]
+    if "unet" in base:
+        u = stats.baseline_per_image(base["unet"])
+        for a in present:
+            rows += [(f"{a} − unet", r) for r in stats.wilcoxon_by_level(tabs[a], u).itertuples()]
+    out = pd.DataFrame([
+        {"comparison": c, "jitter r": r.level, "n": r.n, "mean ΔDice": r.mean_diff,
+         "p (Holm)": r.p_holm}
+        for c, r in rows
+    ])  # fmt: skip
+    note = (
+        "Two-sided paired Wilcoxon signed-rank test per level on per-image Dice (seeds "
+        "averaged); Holm correction across the levels of each comparison. Preliminary."
+    )
+    return md_table(out, "{:.3g}") + "\n\n" + note
 
 
 def results_block(raw) -> str:
     if not raw:
         return TBD
-    return "**Kvasir-SEG pilot, box jitter (Phase 1, preliminary)**\n\n" + table_delta(raw)
+    return "**Kvasir-SEG pilot, box jitter (Phase 1, preliminary)**\n\n" + table_delta(raw, BOOT)
 
 
 # --- rendering ------------------------------------------------------------------
@@ -221,19 +314,26 @@ def main() -> int:
     n_images = len(split[cfg["split"]])
     raw = load_raw(paths, args.exp_id)
     label = leakage_label(paths.docs, "kvasir")
+    a = cfg["analysis"]
+    boot = {"n": a["bootstrap_n"], "seed": a["bootstrap_seed"], "ci": a["ci"]}
+    BOOT.update(boot)
+    base = load_baselines(paths, args.exp_id)
     out = {
         "data.md": table_data(paths),
         "parity.md": table_parity(paths),
         "p1_pilot_integrity.md": table_integrity(raw, cfg, n_images),
-        "p1_pilot_box_jitter.md": table_dice(raw, "box_jitter", "jitter r"),
-        "p1_pilot_box_scale.md": table_dice(raw, "box_scale", "scale s"),
-        "p1_pilot_delta.md": table_delta(raw),
+        "p1_pilot_box_jitter.md": table_dice(raw, "box_jitter", "jitter r", boot),
+        "p1_pilot_box_scale.md": table_dice(raw, "box_scale", "scale s", boot),
+        "p1_pilot_delta.md": table_delta(raw, boot),
+        "p1_baselines.md": table_baselines(base, boot, paths, args.exp_id),
+        "p1_crossover.md": table_crossover(raw, base, boot),
+        "p1_wilcoxon.md": table_wilcoxon(raw, base),
         "leakage_label.md": (
             f"Kvasir-SEG in MedSAM training data (from `docs/leakage.md`): **{label}**"
         ),
     }
     for name, body in out.items():
-        (tables / name).write_text(body + "\n", encoding="utf-8")
+        (tables / name).write_text(body + "\n", encoding="utf-8", newline="\n")
         print(f"wrote {tables / name}")
     template = paths.repo / "reports" / "phase1_report.template.md"
     if template.exists():

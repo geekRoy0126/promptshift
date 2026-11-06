@@ -42,6 +42,8 @@ flowchart LR
 | dataset | train | val | test | objects (test) |
 |---|---|---|---|---|
 | Kvasir-SEG | 700 | 100 | 200 | 220 |
+| ISIC 2018 (official train set) | 1816 | 259 | 519 | 519 |
+| BUSI (lesion images) | 452 | 65 | 129 | 130 |
 | COCO val2017 | 0 | 0 | 1000 | 1000 |
 
 Full statistics (image sizes, objects per image, object area fractions, specks removed): `docs/data_stats.md`.
@@ -80,17 +82,25 @@ TBD — pilot not run yet
 
 TBD — pilot not run yet
 
-Figure: `figures/p1_kvasir_box_jitter.png` (P1-12, owner C; U-Net reference line from P1-10, owner B) — TBD.
+Figure: `figures/p1_kvasir_box_jitter.png` (lines = foundation models with 95% CI bands; dashed = U-Net, dotted = classical baseline, both without prompts).
 
 ### 4.3 Box scale
 
 TBD — pilot not run yet
 
-Figure: `figures/p1_kvasir_box_scale.png` — TBD. Dice vs. box IoU: `figures/p1_kvasir_dice_vs_boxiou.png` — TBD.
+Figures: `figures/p1_kvasir_box_scale.png`; Dice against prompt-box IoU: `figures/p1_kvasir_dice_vs_boxiou.png`; qualitative examples: `figures/p1_kvasir_examples.png`.
 
-### 4.4 U-Net and classical baselines, preliminary crossover
+### 4.4 Prompt-free baselines and preliminary crossover
 
-TBD — U-Net (P1-10, owner B), classical baseline (P1-11, owner C), crossover and statistics (P1-12, owner C).
+Same 200 test images and the same metric code. U-Net: smp U-Net (ResNet-34, ImageNet), 352 × 352, 60 epochs, best val-Dice checkpoint (training curve: `figures/p1_kvasir_unet_curve.png`). Classical: colour channel → Gaussian → Otsu → opening/closing → largest component, parameters chosen on the training split only.
+
+TBD — U-Net (P1_04) and classical (scripts/run_classical.py) not run yet
+
+TBD — pilot not run yet
+
+### 4.5 Paired tests (preliminary)
+
+TBD — pilot not run yet
 
 ## 5. Issues and design decisions
 
@@ -101,6 +111,8 @@ Full log with dates and reasons: `docs/decisions.md`. Main points:
 - **Parity-test trap**: the official script names its output after the input file, so a JPEG input produces a lossy JPEG mask. The parity harness feeds a lossless PNG copy.
 - **Image border**: pixels on the image border count as object boundary, both for NSD/HD95 surfaces and for click depth, so objects cut by the border are handled consistently.
 - **COCO**: one instance is one object, even when occlusion splits it into fragments (to be confirmed for P2).
+- **Leakage**: per MedSAM's supplementary tables, Kvasir-SEG was an external validation set (unseen); ISIC 2018 and BUSI were in its training pool (seen) and will be reported separately (`docs/leakage.md`).
+- **BUSI**: one image appears in both the benign and the malignant folder (byte-identical); it is kept once. The dataset paper's class count (benign 487) contradicts its own total; we check against 437.
 
 ## 6. Plan for Phase 2
 
