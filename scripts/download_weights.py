@@ -7,7 +7,7 @@ Usage:
 Checks:
 - SAM: the official file names end with the first 6 hex digits of the file's md5.
 - MedSAM: sha256 recorded on 2026-11-05 from the official Google Drive folder
-  linked in the MedSAM README (docs/decisions.md).
+  linked in the MedSAM README (decision log).
 """
 
 from __future__ import annotations

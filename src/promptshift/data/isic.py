@@ -1,4 +1,4 @@
-"""ISIC 2018 Task 1 (lesion segmentation) loader (CLAUDE.md 6.1). Official training set only.
+"""ISIC 2018 Task 1 (lesion segmentation) loader (spec 6.1). Official training set only.
 
 Layout after scripts/download_data.py --dataset isic2018:
     <data>/isic2018/ISIC2018_Task1_Training_GroundTruth/ISIC_<7 digits>_segmentation.png
@@ -106,7 +106,7 @@ class Isic2018:
             f"- Training images in the image zip ({self.image_source}): **{n_img}** "
             f"(official: {OFFICIAL_TRAINING_IMAGES})",
             f"- Training masks: **{n_mask}** (official: {OFFICIAL_TRAINING_IMAGES})",
-            "- Split: our seed-42 70/10/20 split of the official training set (CLAUDE.md 6.1)",
+            "- Split: our seed-42 70/10/20 split of the official training set (spec 6.1)",
         ]
         return lines, n_img == n_mask == OFFICIAL_TRAINING_IMAGES
 

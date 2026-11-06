@@ -1,5 +1,5 @@
 # Default hyperparameters. Experiment configs (e.g. p1_kvasir_pilot.yaml) override these.
-# Nothing in src/ hard-codes these values (CLAUDE.md 2.6).
+# Nothing in src/ hard-codes these values (spec 2.6).
 
 global_seed: 42
 
@@ -10,12 +10,12 @@ data:
   split:
     seed: 42
     fractions: {train: 0.7, val: 0.1, test: 0.2}
-  coco:                      # COCO val2017 (CLAUDE.md 6.1)
+  coco:                      # COCO val2017 (spec 6.1)
     min_area_frac: 0.01        # keep iscrowd=0 instances with area >= 1% of the image
     n_instances: 1000
     sample_seed: 42
   busi:
-    drop_normal: true          # normal images have no lesion (CLAUDE.md 6.1)
+    drop_normal: true          # normal images have no lesion (spec 6.1)
 
 metrics:
   nsd_tolerance_px: 2
@@ -48,13 +48,13 @@ analysis:
   ci: 0.95
 
 baselines:
-  classical:                 # CLAUDE.md 6.7; grid searched on train only
+  classical:                 # spec 6.7; grid searched on train only
     channel: [lab_L, lab_a, lab_b, hsv_s, hsv_v]
     polarity: [high, low]
     sigma: [1, 2, 4]
     radius: [2, 5, 10]
     select_on: train
-  unet:                      # CLAUDE.md 6.6 default (no course_ref/)
+  unet:                      # spec 6.6 default (no course_ref/)
     encoder: resnet34
     encoder_weights: imagenet
     input_size: 352

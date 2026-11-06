@@ -1,4 +1,4 @@
-"""BUSI (breast ultrasound) loader (CLAUDE.md 6.1).
+"""BUSI (breast ultrasound) loader (spec 6.1).
 
 Source: Kaggle aryashah2k/breast-ultrasound-images-dataset, layout
     <data>/busi/Dataset_BUSI_with_GT/<class>/<class> (<n>).png
@@ -25,7 +25,7 @@ CLASSES = ("benign", "malignant", "normal")
 LESION_CLASSES = ("benign", "malignant")
 # Per-class image counts. Al-Dhabyani et al. 2020 (Data in Brief 28:104863) Table 1 prints
 # benign 487, which contradicts its own total of 780; 437 + 210 + 133 = 780, and MedSAM's
-# 647 lesion images (Supp. Table 3) = 437 + 210. We check against 437 (docs/decisions.md).
+# 647 lesion images (Supp. Table 3) = 437 + 210. We check against 437 (decision log).
 OFFICIAL_COUNTS = {"benign": 437, "malignant": 210, "normal": 133}
 _FILE_RE = re.compile(r"^(benign|malignant|normal) \((\d+)\)(_mask(?:_\d+)?)?\.png$")
 

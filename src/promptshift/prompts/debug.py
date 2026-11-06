@@ -1,4 +1,4 @@
-"""Debug figure of simulated prompts (CLAUDE.md 6.3: figures/debug_prompts.png)."""
+"""Debug figure of simulated prompts (spec 6.3: figures/debug_prompts.png)."""
 
 from __future__ import annotations
 

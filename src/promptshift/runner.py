@@ -1,4 +1,4 @@
-"""Experiment runner (CLAUDE.md 6.5): encode each image once, decode every configuration,
+"""Experiment runner (spec 6.5): encode each image once, decode every configuration,
 write one long-format row per (image, configuration), resume after interruption.
 
 Files per model in <results>/raw/<exp_id>/:

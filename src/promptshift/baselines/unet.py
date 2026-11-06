@@ -1,4 +1,4 @@
-"""Supervised U-Net baseline (CLAUDE.md 6.6 default; there is no course_ref/ pipeline).
+"""Supervised U-Net baseline (spec 6.6 default; there is no course_ref/ pipeline).
 
 smp.Unet(resnet34, imagenet) on 352x352 inputs; augmentation hflip / vflip / rot90 / light color
 jitter; loss BCE + soft Dice; AdamW lr 1e-4, wd 1e-4, batch 8, cosine schedule; the checkpoint

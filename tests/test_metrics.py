@@ -20,7 +20,7 @@ def blob(seed, shape=(48, 64)):
     return smooth > np.quantile(smooth, 0.7)
 
 
-# --- required by CLAUDE.md 6.4 -------------------------------------------------
+# --- required by spec 6.4 -------------------------------------------------
 
 
 def test_identical_masks():
@@ -55,7 +55,7 @@ def test_one_pixel_shift_within_tolerance():
     assert nsd(a, b, tolerance_px=0) < 1.0
 
 
-# --- empty-mask conventions (docs/decisions.md) --------------------------------
+# --- empty-mask conventions (decision log) --------------------------------
 
 
 def test_both_empty():

@@ -1,4 +1,4 @@
-"""Train the U-Net baseline and evaluate it on the test split (P1-10, CLAUDE.md 6.6).
+"""Train the U-Net baseline and evaluate it on the test split (P1-10, spec 6.6).
 
 Usage:
     python scripts/train_unet.py [--config configs/p1_kvasir_pilot.yaml] [--device auto]

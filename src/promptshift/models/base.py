@@ -1,4 +1,4 @@
-"""Common interface for promptable segmenters (CLAUDE.md 5)."""
+"""Common interface for promptable segmenters (spec 5)."""
 
 from __future__ import annotations
 

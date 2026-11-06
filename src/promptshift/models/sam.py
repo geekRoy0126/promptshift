@@ -1,4 +1,4 @@
-"""SAM ViT-B / ViT-H through the official SamPredictor (CLAUDE.md 6.2).
+"""SAM ViT-B / ViT-H through the official SamPredictor (spec 6.2).
 
 SamPredictor does all resizing, normalization and padding; nothing is reimplemented.
 Protocol:

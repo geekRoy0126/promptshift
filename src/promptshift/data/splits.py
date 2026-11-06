@@ -1,4 +1,4 @@
-"""Fixed, committed train/val/test splits (CLAUDE.md 6.1)."""
+"""Fixed, committed train/val/test splits (spec 6.1)."""
 
 from __future__ import annotations
 

@@ -83,7 +83,7 @@ Same 200 test images and the same metric code. U-Net: smp U-Net (ResNet-34, Imag
 
 ## 5. Issues and design decisions
 
-Full log with dates and reasons: `docs/decisions.md`. Main points:
+Main design decisions (the full dated log is kept by the team):
 
 - **Invalid prompts are never dropped.** A row is always written; if any object's prompt in an image is invalid the whole row is flagged `invalid` with NaN metrics, so row counts stay checkable.
 - **MedSAM follows the official source**, not our earlier description: bicubic resize with anti-aliasing then truncation to uint8, global min-max normalization, no SAM pixel normalization. Loading MedSAM weights with the facebookresearch registry gives the same embeddings as MedSAM's bundled code, so no vendored copy is needed.
@@ -101,8 +101,8 @@ Full log with dates and reasons: `docs/decisions.md`. Main points:
 
 ## 7. Contributions
 
-See `CONTRIBUTIONS.md` (per task owner and status).
+The per-task contribution record is kept by the team and available to the course staff.
 
 ## 8. AI usage statement
 
-AI assistance (Claude Code) was used and is disclosed task by task in `AI_USAGE_LOG.md`, including which files were generated or modified and who reviewed them. The allowed level of AI use is being confirmed with the TA.
+AI assistance (Claude Code) was used and is disclosed task by task in the team's AI usage log (kept outside this public repository, available to the course staff), including which files were generated or modified and who reviewed them. The allowed level of AI use is being confirmed with the TA.

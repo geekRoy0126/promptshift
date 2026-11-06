@@ -1,4 +1,4 @@
-"""Stable, process-independent randomness (CLAUDE.md 6.3).
+"""Stable, process-independent randomness (spec 6.3).
 
 Python's built-in hash() on str is salted per process, so it is never used here.
 A prompt's rng depends only on (global_seed, dataset, image_id, object_idx, perturb,
@@ -34,7 +34,7 @@ def prompt_key(
     level: float | int | None,
     seed: int,
 ) -> str:
-    """The exact key string from CLAUDE.md 6.3."""
+    """The exact key string from spec 6.3."""
     return (
         f"{int(global_seed)}|{dataset}|{image_id}|{int(object_idx)}|"
         f"{perturb}|{format_level(level)}|{int(seed)}"

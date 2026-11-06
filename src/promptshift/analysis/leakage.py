@@ -1,6 +1,6 @@
 """Seen / unseen label of a dataset for MedSAM, read from docs/leakage.md (owner B, P1-13).
 
-A missing file or a dataset without a row counts as "unknown" (CLAUDE.md 7).
+A missing file or a dataset without a row counts as "unknown" (spec 7).
 """
 
 from __future__ import annotations

@@ -1,4 +1,4 @@
-"""Click prompts with controlled offset from the object center (CLAUDE.md 6.3).
+"""Click prompts with controlled offset from the object center (spec 6.3).
 
 The distance transform is computed on the mask padded with one background pixel on
 every side, so the image border counts as object boundary. Without padding, an object

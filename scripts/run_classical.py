@@ -1,4 +1,4 @@
-"""Classical baseline (P1-11, CLAUDE.md 6.7): grid search on train (val reported), then one
+"""Classical baseline (P1-11, spec 6.7): grid search on train (val reported), then one
 evaluation on test.
 
 Usage: python scripts/run_classical.py [--config configs/p1_kvasir_pilot.yaml] [--root PATH]

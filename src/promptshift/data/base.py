@@ -1,4 +1,4 @@
-"""Common sample format and mask cleaning shared by every dataset loader (CLAUDE.md 5, 6.1)."""
+"""Common sample format and mask cleaning shared by every dataset loader (spec 5, 6.1)."""
 
 from __future__ import annotations
 

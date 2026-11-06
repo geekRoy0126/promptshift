@@ -1,4 +1,4 @@
-# Large artifacts: never in git (CLAUDE.md 2.8)
+# Large artifacts: never in git
 /data/
 /weights/
 /embeddings/
@@ -43,3 +43,10 @@ desktop.ini
 
 # Smoke runs are pipeline checks, not results
 results/raw/*smoke*/
+
+# Kept locally only (owner decision 2026-11-06)
+/CLAUDE.md
+/CONTRIBUTIONS.md
+/AI_USAGE_LOG.md
+/docs/progress.md
+/docs/decisions.md

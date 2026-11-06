@@ -1,4 +1,4 @@
-"""P1-6 acceptance checks (CLAUDE.md 6.2).
+"""P1-6 acceptance checks (spec 6.2).
 
 1. MedSAM parity: on 3 single-object Kvasir test images with GT boxes, compare our
    MedSamSegmenter with the official MedSAM_Inference.py, run unmodified as a

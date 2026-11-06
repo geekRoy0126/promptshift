@@ -1,4 +1,4 @@
-"""Classical segmentation baseline (CLAUDE.md 6.7, course Module 3 style):
+"""Classical segmentation baseline (spec 6.7, course Module 3 style):
 
     color-space channel (Lab or HSV) -> Gaussian smoothing -> Otsu threshold
     -> morphological opening, then closing -> keep the largest connected component

@@ -1,4 +1,4 @@
-"""COCO val2017 instance loader (CLAUDE.md 6.1; P1: loader + verification only).
+"""COCO val2017 instance loader (spec 6.1; P1: loader + verification only).
 
 Layout after scripts/download_data.py --dataset coco_val2017:
     <data>/coco_val2017/annotations/instances_val2017.json

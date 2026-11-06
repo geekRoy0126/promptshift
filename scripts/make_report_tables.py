@@ -1,4 +1,4 @@
-"""Generate every number in the Phase 1 report from CSVs (CLAUDE.md 6.10).
+"""Generate every number in the Phase 1 report from CSVs (spec 6.10).
 
 Writes reports/tables/*.md, renders reports/phase1_report.md from
 reports/phase1_report.template.md (each `<!-- include: tables/X.md -->` line is replaced

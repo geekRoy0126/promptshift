@@ -1,4 +1,4 @@
-"""Figures for P1-12 (CLAUDE.md 6.8). Static PNG (300 dpi) + PDF for the report.
+"""Figures for P1-12 (spec 6.8). Static PNG (300 dpi) + PDF for the report.
 
 Colors: the first three slots of the validated reference categorical palette (they pass the
 all-pairs colorblind check), one per foundation model in a fixed order. The prompt-free baselines

@@ -30,12 +30,16 @@ from pathlib import Path
 
 REPO_URL = "{REPO_URL}"
 REF = "main"  # branch, tag or commit to run
+# Storage root on Google Drive (data, weights, results, checkpoints). Change it here if needed.
+DRIVE_ROOT = "/content/drive/MyDrive/cs5330/cs5330/promptshift"
 
 IN_COLAB = "COLAB_RELEASE_TAG" in os.environ
 if IN_COLAB:
     from google.colab import drive, userdata
 
     drive.mount("/content/drive")
+    os.environ["PROMPTSHIFT_ROOT"] = DRIVE_ROOT  # read by promptshift.paths in every script
+    Path(DRIVE_ROOT).mkdir(parents=True, exist_ok=True)
     REPO = Path("/content/promptshift")
     try:  # optional: the repo is public; GH_TOKEN is only needed if it is made private again
         _token = userdata.get("GH_TOKEN")
@@ -113,7 +117,8 @@ PREREQ = """\
 2. *Runtime → Change runtime type → T4 GPU*.
 3. *Runtime → Run all*. Allow Google Drive access when asked.
 
-All data, weights and results go to `MyDrive/promptshift/`, so a disconnect loses nothing:
+All data, weights and results go to `<Drive>/` = `MyDrive/cs5330/cs5330/promptshift/`
+(set by `DRIVE_ROOT` in the setup cell), so a disconnect loses nothing:
 rerun the notebook and finished steps are skipped."""
 
 
@@ -166,7 +171,7 @@ NOTEBOOKS["P1_00_setup_colab"] = [
         "# P1_00 · Colab setup: weights and data to Drive\n\n"
         "Downloads and verifies the model weights (SAM ViT-B ≈ 375 MB, SAM ViT-H ≈ 2.4 GB, "
         "MedSAM ≈ 375 MB) and the datasets (Kvasir-SEG ≈ 46 MB, COCO val2017 annotations ≈ "
-        "250 MB, ISIC 2018 masks ≈ 27 MB, BUSI ≈ 195 MB) into `MyDrive/promptshift/`, and "
+        "250 MB, ISIC 2018 masks ≈ 27 MB, BUSI ≈ 195 MB) into `<Drive>/`, and "
         "records the Colab software versions.\n\n" + PREREQ
     ),
     params(
@@ -174,7 +179,7 @@ NOTEBOOKS["P1_00_setup_colab"] = [
         'DATASETS = ["kvasir_seg", "coco_val2017", "isic2018", "busi"]\n'
     ),
     setup(),
-    md("## 1. Environment\nSaved to `MyDrive/promptshift/results/environment_colab.json`."),
+    md("## 1. Environment\nSaved to `<Drive>/results/environment_colab.json`."),
     code(
         "import json\nimport platform\n\n"
         "import numpy\nimport torch\n\n"
@@ -196,7 +201,7 @@ NOTEBOOKS["P1_00_setup_colab"] = [
         "## 2. Model weights\n"
         "Checksums are verified after download (an existing file is only verified). "
         "If the MedSAM download from Google Drive fails with a quota error, download "
-        "`medsam_vit_b.pth` by hand from the MedSAM README into `MyDrive/promptshift/weights/` "
+        "`medsam_vit_b.pth` by hand from the MedSAM README into `<Drive>/weights/` "
         "and rerun this cell."
     ),
     code(
@@ -245,7 +250,7 @@ NOTEBOOKS["P1_01_data_check"] = [
     md(
         "## 2. Compare with the committed versions\n"
         "The split files must be identical. Any change in `docs/data_stats.md` is printed and "
-        "saved to `MyDrive/promptshift/results/colab_check/`; then the clone is reset so the "
+        "saved to `<Drive>/results/colab_check/`; then the clone is reset so the "
         "next notebooks run on a clean tree (their `git_sha` would otherwise end in `-dirty`)."
     ),
     code(
@@ -276,7 +281,7 @@ NOTEBOOKS["P1_02_medsam_parity"] = [
         "Required: Dice ≥ 0.99 on every image.\n"
         "2. **SAM ViT-B and ViT-H**: our wrapper vs. a direct `SamPredictor` call. "
         "Required: pixel-identical masks.\n\n"
-        "Results: `MyDrive/promptshift/results/parity/`. Needs P1_00 first.\n\n" + PREREQ
+        "Results: `<Drive>/results/parity/`. Needs P1_00 first.\n\n" + PREREQ
     ),
     params('SAM_MODELS = ["sam_vit_b", "sam_vit_h"]\n'),
     setup(),
@@ -374,7 +379,7 @@ NOTEBOOKS["P1_03_kvasir_box_pilot"] = [
     md(
         "## 4. Qualitative examples\n"
         "Runs the models on 3 test images (box jitter 0 / 10 / 30 / 50 %) and saves "
-        "`MyDrive/promptshift/results/figures/p1_kvasir_examples.png`. The other figures are "
+        "`<Drive>/results/figures/p1_kvasir_examples.png`. The other figures are "
         "made from the CSVs by `scripts/make_figures.py` after the export."
     ),
     code(
@@ -386,8 +391,8 @@ NOTEBOOKS["P1_03_kvasir_box_pilot"] = [
     md(
         "## 5. Export\n"
         "Zips `raw/<EXP_ID>/`, `parity/`, `summary/`, `figures/`, `colab_check/` and "
-        "`environment_colab.json` from `MyDrive/promptshift/results/` (paths inside the zip are "
-        "relative to `results/`). A copy stays in `MyDrive/promptshift/export/`."
+        "`environment_colab.json` from `<Drive>/results/` (paths inside the zip are "
+        "relative to `results/`). A copy stays in `<Drive>/export/`."
     ),
     export_cell(
         "[exp_dir, *(paths.results / p for p in\n"
@@ -405,8 +410,8 @@ NOTEBOOKS["P1_04_unet_kvasir"] = [
         "Roughly 20–30 min on a T4.\n\n"
         "**Resumable**: the last checkpoint is saved to Drive after every epoch; after a "
         "disconnect just *Run all* again.\n\n"
-        "Outputs: `MyDrive/promptshift/results/raw/<EXP_ID>/unet.csv`, `unet_history.csv`, "
-        "`unet_train.json`; checkpoints in `MyDrive/promptshift/checkpoints/<EXP_ID>/`. "
+        "Outputs: `<Drive>/results/raw/<EXP_ID>/unet.csv`, `unet_history.csv`, "
+        "`unet_train.json`; checkpoints in `<Drive>/checkpoints/<EXP_ID>/`. "
         "At the end a zip of the result files is downloaded: unzip it into the repo folder "
         "`results/` and tell Claude Code. Needs P1_00 first.\n\n" + PREREQ
     ),

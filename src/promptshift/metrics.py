@@ -1,6 +1,6 @@
-"""Segmentation metrics on 2-D boolean masks at original image resolution (CLAUDE.md 6.4).
+"""Segmentation metrics on 2-D boolean masks at original image resolution (spec 6.4).
 
-Conventions (logged in docs/decisions.md):
+Conventions (logged in the decision log):
 - Dice / IoU / NSD: both masks empty -> 1.0; exactly one empty -> 0.0.
 - HD95: NaN when the prediction (or the GT) is empty. Callers count empty predictions.
 - Surface = mask pixels removed by one binary erosion with a 4-connected (cross)

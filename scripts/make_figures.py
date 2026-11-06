@@ -1,4 +1,4 @@
-"""Make the P1-12 figures from the result CSVs (CLAUDE.md 6.8). PNG (300 dpi) + PDF.
+"""Make the P1-12 figures from the result CSVs (spec 6.8). PNG (300 dpi) + PDF.
 
 Usage:
     python scripts/make_figures.py [--exp-id p1_kvasir_pilot] [--root PATH]

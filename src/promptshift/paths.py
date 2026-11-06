@@ -1,6 +1,7 @@
 """The only module that knows where data, weights and results live.
 
-- Colab: everything under /content/drive/MyDrive/promptshift/ (survives disconnects).
+- Colab: everything under /content/drive/MyDrive/cs5330/cs5330/promptshift/ (survives
+  disconnects; the owner's Drive folder, see the decision log).
 - Local: data/, weights/, results/ inside the repo.
 - Override: set PROMPTSHIFT_ROOT (used by tests and for custom locations).
 
@@ -16,7 +17,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 COLAB_DRIVE_MOUNT = Path("/content/drive/MyDrive")
-COLAB_ROOT = COLAB_DRIVE_MOUNT / "promptshift"
+COLAB_ROOT = COLAB_DRIVE_MOUNT / "cs5330" / "cs5330" / "promptshift"
 ROOT_ENV_VAR = "PROMPTSHIFT_ROOT"
 
 

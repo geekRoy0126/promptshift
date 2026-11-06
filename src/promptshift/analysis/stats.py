@@ -1,4 +1,4 @@
-"""Statistics for P1-12 (CLAUDE.md 6.8). The statistical unit is the image: seeds are averaged
+"""Statistics for P1-12 (spec 6.8). The statistical unit is the image: seeds are averaged
 within each image first, then images are resampled (bootstrap) or paired (Wilcoxon)."""
 
 from __future__ import annotations

@@ -1,4 +1,4 @@
-"""Box prompts: GT box, jitter and scale perturbations (CLAUDE.md 6.3).
+"""Box prompts: GT box, jitter and scale perturbations (spec 6.3).
 
 Box convention: [x0, y0, x1, y1] in original-image pixel coordinates, inclusive,
 x = column, y = row (same as MedSAM's get_bbox). Perturbed boxes are float64.

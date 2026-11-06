@@ -1,4 +1,4 @@
-"""Kvasir-SEG loader (CLAUDE.md 6.1).
+"""Kvasir-SEG loader (spec 6.1).
 
 Layout after scripts/download_data.py:
     <data>/kvasir_seg/Kvasir-SEG/images/<id>.jpg
