@@ -1,8 +1,7 @@
 # Role C: BUSI experiments, statistics, failure review and demo
 
 This implementation extends the existing team pipeline. It reuses the BUSI loader,
-committed splits, model wrappers, runner, metrics and U-Net training code. It does
-not contain completed BUSI model results. Development used AI assistance (Codex);
+committed splits, model wrappers, runner, metrics and U-Net training code. The completed BUSI box run is documented in [Role C results](role_c_results.md). Development used AI assistance (Codex);
 the team should review the changes and record the actual contribution in its private log.
 
 ## Run the BUSI experiment
