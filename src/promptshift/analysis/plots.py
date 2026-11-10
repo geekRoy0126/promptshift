@@ -58,7 +58,8 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
         st = BASELINE_STYLE[method]
         ax.axhspan(b["lo"], b["hi"], color=st["color"], alpha=0.08, lw=0)
         ax.axhline(b["mean"], color=st["color"], ls=st["ls"], lw=1.5)
-        ax.annotate(f"{st['label']} {b['mean']:.2f}", (x_min, b["mean"]), xytext=(2, 3),
+        ax.annotate(f"{st['label']} {b['mean']:.2f}", (x_min, b["mean"]),
+                    xytext=(2, -12 if b["mean"] > 0.9 else 3),
                     textcoords="offset points", color=MUTED, fontsize=8)  # fmt: skip
     for model in MODEL_COLORS:
         if model not in curves:
@@ -80,6 +81,7 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
     _style(ax, xlabel, "Dice (mean over images, 95% CI)", title)
     if curves:
         ax.legend(frameon=False, fontsize=8, loc="lower left")
+    fig.tight_layout()
     return fig
 
 

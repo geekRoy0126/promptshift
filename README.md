@@ -60,3 +60,9 @@ tests/             pytest (fast, offline by default; -m slow needs weights)
 ## AI use
 
 AI assistance (Claude Code) was used for this project and is disclosed to the course staff; the per-task AI usage log and contribution record are kept by the team.
+
+## Role C workflow
+
+BUSI experiment, dataset-independent analysis, ranked failure-case review and a local
+SAM/MedSAM demo: see [the Role C guide](docs/role_c.md). Start with
+`notebooks/C_01_busi_analysis.ipynb` after setup. No BUSI scores are prefilled.
