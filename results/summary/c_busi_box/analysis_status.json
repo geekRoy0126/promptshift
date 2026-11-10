@@ -1,0 +1,17 @@
+{
+  "dataset": "busi",
+  "experiment": "c_busi_box",
+  "missing_methods": [],
+  "missing_baselines": [
+    "unet",
+    "classical"
+  ],
+  "complete": true,
+  "notes": [
+    "Seeds averaged within images before inference statistics.",
+    "Holm correction is across levels within each model pair/perturbation.",
+    "HD95 omits non-finite values; sample counts are exported.",
+    "Crossover interpolation is descriptive, not a significance threshold.",
+    "Failure rankings show drops; explanations require review."
+  ]
+}
