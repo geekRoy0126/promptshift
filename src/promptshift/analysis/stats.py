@@ -42,7 +42,7 @@ def curve(df: pd.DataFrame, perturb: str, n=2000, seed=42, ci=0.95) -> pd.DataFr
         lo, hi = bootstrap_ci(vals.to_numpy(), n, seed, ci)
         rows.append({"level": float(level), "mean": float(vals.mean()), "lo": lo, "hi": hi,
                      "n_images": int(vals.notna().sum())})  # fmt: skip
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=["level", "mean", "lo", "hi", "n_images"])
 
 
 def baseline_summary(df: pd.DataFrame, n=2000, seed=42, ci=0.95) -> dict:
@@ -57,10 +57,11 @@ def delta_dice(df: pd.DataFrame, a: float = 0.0, b: float = 0.2, n=2000, seed=42
     levels = {round(float(x), 9): x for x in t.index}
     if round(a, 9) not in levels or round(b, 9) not in levels:
         return {"d0": math.nan, "d1": math.nan, "delta": math.nan, "lo": math.nan, "hi": math.nan}
-    d = (t.loc[levels[round(a, 9)]] - t.loc[levels[round(b, 9)]]).dropna()
+    paired = t.loc[[levels[round(a, 9)], levels[round(b, 9)]]].dropna(axis=1)
+    d = paired.iloc[0] - paired.iloc[1]
     lo, hi = bootstrap_ci(d.to_numpy(), n, seed, ci)
-    return {"d0": float(t.loc[levels[round(a, 9)]].mean()),
-            "d1": float(t.loc[levels[round(b, 9)]].mean()),
+    return {"d0": float(paired.iloc[0].mean()),
+            "d1": float(paired.iloc[1].mean()),
             "delta": float(d.mean()), "lo": lo, "hi": hi}  # fmt: skip
 
 
@@ -118,6 +119,6 @@ def wilcoxon_by_level(a: pd.DataFrame, b: pd.DataFrame | pd.Series) -> pd.DataFr
             p = float(stats.wilcoxon(pair.iloc[:, 0], pair.iloc[:, 1]).pvalue)
         rows.append({"level": float(level), "n": len(pair), "mean_diff": float(d.mean()),
                      "p": p})  # fmt: skip
-    out = pd.DataFrame(rows)
+    out = pd.DataFrame(rows, columns=["level", "n", "mean_diff", "p"])
     out["p_holm"] = holm(out["p"].to_numpy())
     return out

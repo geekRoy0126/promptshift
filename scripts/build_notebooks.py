@@ -447,6 +447,32 @@ NOTEBOOKS["P1_04_unet_kvasir"] = [
 ]
 
 
+# Role C uses the existing setup and runner; no duplicated model/data pipeline.
+NOTEBOOKS["C_01_busi_analysis"] = [
+    md("# Role C: BUSI box experiment and analysis\n\n"
+       "Run P1_00 first to download datasets and weights. Uses the committed BUSI split. "
+       "MedSAM has seen BUSI during training; report it separately from unseen datasets. "
+       "No output scores are prefilled. Run U-Net separately if its baseline is required."),
+    params('CONFIG = "configs/c_busi_box.yaml"\n'
+           'MODELS = ["sam_vit_b", "sam_vit_h", "medsam"]\n'),
+    setup(),
+    code('check_gpu()\n'
+         'run("scripts/run_experiment.py", "--config", CONFIG, "--models", *MODELS)\n'),
+    md("## Statistics and figures\n"
+       "Missing baselines are explicitly recorded in analysis_status.json."),
+    code('run("scripts/analyze_results.py", "--config", CONFIG)\n'),
+    md("## Failure cases\nRequires real weights. Review causes manually in review.csv."),
+    code('run("scripts/make_failure_cases.py", "--config", CONFIG, "--top", "6")\n'),
+    md("## Export\nDownload this archive before ending the session."),
+    code('import shutil\n\nfrom promptshift.paths import get_paths\n\n'
+         'paths = get_paths()\n'
+         'archive = shutil.make_archive(\n    str(paths.root / "Role_C_BUSI"), "zip",\n    '
+         'root_dir=paths.summary_results / "c_busi_box")\n'
+         'if IN_COLAB:\n    from google.colab import files\n    files.download(archive)\n'
+         'else:\n    print(archive)\n'),
+]
+
+
 def notebook(cells: list[dict]) -> dict:
     out = []
     for i, c in enumerate(cells):

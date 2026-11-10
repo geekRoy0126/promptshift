@@ -1,0 +1,7 @@
+# Role C: same box protocol as the Kvasir pilot; fixed committed BUSI split.
+exp_id: c_busi_box
+dataset: busi
+split: test
+models: [sam_vit_b, sam_vit_h, medsam]
+perturbations: [box_jitter, box_scale]
+max_images: null
