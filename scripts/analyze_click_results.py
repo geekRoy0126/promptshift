@@ -12,7 +12,7 @@ import pandas as pd
 
 from promptshift.analysis import plots
 from promptshift.analysis.stats import bootstrap_ci, curve, per_image, wilcoxon_by_level
-from promptshift.clicks import click_grid, validate_click_config
+from promptshift.clicks import click_grid, validate_click_config, validate_click_trace
 from promptshift.config import load_config
 from promptshift.paths import get_paths
 
@@ -47,6 +47,8 @@ def analyze(cfg, paths, out=None):
                 raise ValueError(f"{model}: incomplete click grid")
         if not np.isfinite(df.dice).all() or not df.dice.between(0, 1).all():
             raise ValueError(f"{model}: invalid Dice")
+        trace = pd.read_csv(source / f"{model}_clicks.csv", dtype={"image_id": str})
+        validate_click_trace(df, trace)
         raw[model] = df
     out.mkdir(parents=True, exist_ok=True)
     a = cfg["analysis"]

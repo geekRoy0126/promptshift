@@ -100,8 +100,10 @@ def test_resume_repairs_incomplete_block_and_rejects_changed_protocol(tmp_path, 
     s = sample()
     ds = SimpleNamespace(ids=lambda split: ["one"], get=lambda image_id: s)
     runner = script("run_click_experiment")
+
     def factory(name):
         return RecordingModel(s.mask)
+
     assert runner.run(cfg, paths, ds, factory)[0]["complete"]
     assert (
         runner.run(cfg, paths, ds, lambda n: pytest.fail("completed model reloaded"))[0][
@@ -114,6 +116,9 @@ def test_resume_repairs_incomplete_block_and_rejects_changed_protocol(tmp_path, 
     assert runner.run(cfg, paths, ds, factory)[0]["complete"]
     df = pd.read_csv(file)
     assert len(df) == 33 and not df.duplicated(["image_id", "perturb", "level", "seed"]).any()
+    trace_file = file.with_name("sam_vit_b_clicks.csv")
+    pd.read_csv(trace_file).iloc[1:].to_csv(trace_file, index=False)
+    assert runner.run(cfg, paths, ds, factory)[0]["already_done"] == 0
     analyzer = script("analyze_click_results")
     assert analyzer.analyze(cfg, paths)["complete"]
     df.iloc[:-1].to_csv(file, index=False)

@@ -505,6 +505,40 @@ NOTEBOOKS["C_02_busi_clicks"] = [
 ]
 
 
+
+NOTEBOOKS["C_03_busi_baselines_demo"] = [
+    md("# Role C: BUSI baselines and real demo validation\n\n"
+       "Reuses the team's existing classical and U-Net implementations. U-Net: 60 epochs, "
+       "452 train images, best checkpoint selected by 65 validation images, then one "
+       "evaluation on 129 test images. No test-set tuning. "
+       "Run the BUSI box experiment before the final analysis.\n\n" + PREREQ),
+    params('RUN_REF = "role-c-phase2-completion"  # change to main after merge\n'
+           'CONFIG = "configs/c_busi_box.yaml"\n'),
+    setup(),
+    code('check_gpu()\n'
+         'run("scripts/download_data.py", "--dataset", "busi")\n'
+         'run("scripts/download_weights.py", "--model", "sam_vit_b", "--model", "medsam")\n'
+         'subprocess.run([sys.executable,"-m","pip","install","-q","gradio>=5,<6"],check=True)\n'),
+    md("## Real-model demo HTTP validation\n"
+       "Two box settings on a BUSI test image. Real pretrained weights, no Dice without GT."),
+    code('run("scripts/validate_real_demo.py", "--device", "cuda" if IN_COLAB else "cpu")\n'),
+    md("## Prompt-free baselines\n"
+       "Classical parameters are selected on training images. U-Net resumes from Drive."),
+    code('run("scripts/run_classical.py", "--config", CONFIG)\n'
+         'run("scripts/train_unet.py", "--config", CONFIG)\n'),
+    md("## Recompute box statistics with baselines\n"
+       "Missing box models remain visible in analysis_status.json."),
+    code('run("scripts/analyze_results.py", "--config", CONFIG)\n'
+         'from promptshift.paths import get_paths\n'
+         'paths = get_paths()\n'
+         'EXP_ID = "c_busi_box"\n'),
+    export_cell('[*sorted((paths.raw_results / EXP_ID).glob("unet*")),\n'
+                ' *sorted((paths.raw_results / EXP_ID).glob("classical*")),\n'
+                ' paths.summary_results / EXP_ID, paths.results / "validation/real_demo",\n'
+                ' paths.summary_results / "classical_grid_busi.csv"]', 'C_03'),
+]
+
+
 def notebook(cells: list[dict]) -> dict:
     out = []
     for i, c in enumerate(cells):

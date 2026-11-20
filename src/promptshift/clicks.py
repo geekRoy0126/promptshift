@@ -171,3 +171,40 @@ def evaluate_click_image(model, sample, cfg, meta):
                 [len(s["coords"]) for s in states],
             )
     return rows, traces
+
+
+def validate_click_trace(metrics, traces):
+    """Reject missing/duplicated clicks and disagreement with actual click counts."""
+    if len(traces) == 0:
+        raise ValueError("Missing click trace")
+    key = ["image_id", "object_idx", "perturb", "level", "seed", "step"]
+    if traces.duplicated(key).any():
+        raise ValueError("Duplicate click trace")
+    if not np.isfinite(traces[["x", "y", "step"]].to_numpy()).all():
+        raise ValueError("Non-finite click trace")
+    if not traces.label.isin([0, 1]).all() or not traces.step.ge(0).all():
+        raise ValueError("Invalid click label/step")
+    for col in ["image_id", "model", "dataset", "split", "exp_id"]:
+        if col in metrics and col in traces and set(traces[col]) != set(metrics[col]):
+            raise ValueError(f"Mixed trace {col}")
+    for row in metrics.itertuples():
+        t = traces[
+            (traces.image_id == row.image_id)
+            & (traces.perturb == row.perturb)
+            & (traces.seed == row.seed)
+        ]
+        if row.perturb == "point_offset":
+            t = t[t.level == row.level]
+            if not t.step.eq(0).all() or not t.label.eq(1).all():
+                raise ValueError("Invalid offset trace")
+        else:
+            if not t.level.eq(t.step).all():
+                raise ValueError("Invalid correction round")
+            t = t[t.step <= row.level]
+        initial = t[t.step == 0]
+        if (
+            len(t) != row.clicks_total
+            or len(initial) != row.n_objects
+            or set(initial.object_idx) != set(range(row.n_objects))
+        ):
+            raise ValueError("Incomplete click trace/count mismatch")

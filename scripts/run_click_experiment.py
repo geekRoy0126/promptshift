@@ -14,7 +14,12 @@ from pathlib import Path
 
 import pandas as pd
 
-from promptshift.clicks import click_grid, evaluate_click_image, validate_click_config
+from promptshift.clicks import (
+    click_grid,
+    evaluate_click_image,
+    validate_click_config,
+    validate_click_trace,
+)
 from promptshift.config import load_config
 from promptshift.data import get_dataset
 from promptshift.models import load_model
@@ -80,6 +85,17 @@ def run(cfg, paths, ds=None, factory=None, device="auto"):
             done &= traced
             previous = previous[previous.image_id.isin(done)]
             traces = traces[traces.image_id.isin(done)] if len(traces) else traces
+        for image_id in list(done):
+            try:
+                validate_click_trace(
+                    previous[previous.image_id.eq(image_id)], traces[traces.image_id.eq(image_id)]
+                )
+            except (ValueError, KeyError, AttributeError):
+                done.remove(image_id)
+        if len(previous):
+            previous = previous[previous.image_id.isin(done)]
+        if len(traces):
+            traces = traces[traces.image_id.isin(done)]
         todo = [i for i in ids if i not in done]
         model = (
             (factory(name) if factory else load_model(name, paths.weights, device))
