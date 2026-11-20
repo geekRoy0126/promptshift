@@ -119,7 +119,8 @@ def main() -> int:
         model.load_state_dict(ck["model"])
         opt.load_state_dict(ck["opt"])
         sched.load_state_dict(ck["sched"])
-        gen.set_state(ck["gen"])
+        # map_location moves checkpoint tensors to CUDA, but this generator is CPU.
+        gen.set_state(ck["gen"].cpu())
         state, history = TrainState(**ck["state"]), ck["history"]
         print(f"resumed after epoch {state.epoch} (best val Dice {state.best_val_dice:.4f})")
 
