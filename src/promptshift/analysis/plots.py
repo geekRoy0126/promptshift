@@ -74,7 +74,7 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
     if percent_x:
         ax.xaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
     _style(ax, xlabel, "Dice (mean over images, 95% CI)", title)
-    if curves:
+    if curves or baselines:
         ax.legend(frameon=False, fontsize=8, loc="upper center",
                   bbox_to_anchor=(0.5, -0.25), ncol=3)
     fig.tight_layout()
