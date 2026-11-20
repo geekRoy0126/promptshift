@@ -10,7 +10,7 @@ import pytest
 
 from promptshift.clicks import correction_click, evaluate_click_image, validate_click_config
 from promptshift.config import load_config
-from promptshift.paths import Paths, REPO_ROOT
+from promptshift.paths import REPO_ROOT, Paths
 
 
 def script(name):
@@ -100,7 +100,8 @@ def test_resume_repairs_incomplete_block_and_rejects_changed_protocol(tmp_path, 
     s = sample()
     ds = SimpleNamespace(ids=lambda split: ["one"], get=lambda image_id: s)
     runner = script("run_click_experiment")
-    factory = lambda name: RecordingModel(s.mask)
+    def factory(name):
+        return RecordingModel(s.mask)
     assert runner.run(cfg, paths, ds, factory)[0]["complete"]
     assert (
         runner.run(cfg, paths, ds, lambda n: pytest.fail("completed model reloaded"))[0][

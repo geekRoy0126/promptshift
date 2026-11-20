@@ -15,7 +15,7 @@ Environment and counts: `results/raw/c_busi_box/run_metadata.json`.
   invalid rows or processing errors. SAM ViT-B produced one empty prediction,
   retained in the metrics rather than discarded.
 - Seeds are averaged within images before statistical analysis.
-- Six ranked failure-case figures and a review CSV are included; causal review fields remain blank.
+- Six ranked failure-case figures and a review CSV are included; the original human review fields remain blank. Preliminary AI-assisted observations are in `review_ai.csv` (team confirmation pending).
 
 ## Mean Dice versus box jitter
 
