@@ -24,7 +24,7 @@ python scripts/make_failure_cases.py --config configs/c_busi_box.yaml --top 6
 The runner resumes completed image/configuration blocks. Use `--max-images 2
 --exp-id c_busi_smoke` for a quick execution check; never mix smoke output with
 `c_busi_box` results. Model inference requires the downloaded official weights and
-PyTorch. No GPU scores have been generated or claimed by this change.
+PyTorch. The completed full GPU box run and its source metadata are in `role_c_results.md`.
 
 BUSI cleaning already implemented by the team removes normal images and byte-identical
 duplicates, merges masks and uses the committed image split. The current split is
@@ -95,3 +95,13 @@ binds locally and does not create a public sharing link.
 synthetic fixtures, result integrity checks (including baseline NaN levels), paired
 statistics, ranked case rendering, box validation and Gradio app construction.
 Synthetic fixture scores must never be included in project results.
+
+## Phase 2 extensions
+
+`C_02_busi_clicks.ipynb` adds point-offset and adaptive correction experiments;
+see [the precise oracle protocol](role_c_click_protocol.md).
+`C_03_busi_baselines_demo.ipynb` runs the existing shared trainers on BUSI and
+validates the real demo through its HTTP API. Both notebooks set `RUN_REF` in
+the parameters cell so an unmerged feature branch can be executed safely.
+[The progress report](phase2_role_c_progress.md) distinguishes teammate Kvasir
+inference from Role C integration and analysis.
