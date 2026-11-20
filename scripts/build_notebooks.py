@@ -29,7 +29,7 @@ import sys
 from pathlib import Path
 
 REPO_URL = "{REPO_URL}"
-REF = "main"  # branch, tag or commit to run
+REF = globals().get("RUN_REF", "main")  # branch, tag or commit to run
 # Storage root on Google Drive (data, weights, results, checkpoints). Change it here if needed.
 DRIVE_ROOT = "/content/drive/MyDrive/cs5330/cs5330/promptshift"
 
@@ -470,6 +470,38 @@ NOTEBOOKS["C_01_busi_analysis"] = [
          'root_dir=paths.summary_results / "c_busi_box")\n'
          'if IN_COLAB:\n    from google.colab import files\n    files.download(archive)\n'
          'else:\n    print(archive)\n'),
+]
+
+
+
+NOTEBOOKS["C_02_busi_clicks"] = [
+    md("# Role C: BUSI point offset and corrective clicks\n\n"
+       "Uses existing SAM wrappers and the committed 129-image BUSI test split. "
+       "No MedSAM point inference. Ground truth selects simulated clicks; these are oracle "
+       "experiments. Initial clicks match across models; adaptive corrections can differ. "
+       "One initial click/object, then up to five additional clicks/object.\n\n" + PREREQ),
+    params('RUN_REF = "role-c-phase2-completion"  # change to main after merge\n'
+           'CONFIG = "configs/c_busi_clicks.yaml"\n'),
+    setup(),
+    code('check_gpu()\n'
+         'from promptshift.paths import get_paths\n'
+         'paths = get_paths().ensure()\n'
+         'run("scripts/download_data.py", "--dataset", "busi")\n'
+         'run("scripts/download_weights.py", "--model", "sam_vit_b", "--model", "sam_vit_h")\n'),
+    md("## Smoke test, then full run\nThe three-image smoke has a separate experiment ID."),
+    code('run("scripts/run_click_experiment.py", "--config", CONFIG, "--smoke-images", "3")\n'
+         'run("scripts/run_click_experiment.py", "--config", CONFIG)\n'),
+    md("## Integrity, confidence intervals and paired recovery\n"
+       "Full analysis rejects missing configurations, duplicates and smoke runs."),
+    code('run("scripts/analyze_click_results.py", "--config", CONFIG)\n'
+         'import json, platform, torch, numpy\n'
+         'env = dict(repo_sha=git_out("rev-parse", "HEAD"), python=platform.python_version(),\n'
+         '           torch=torch.__version__, cuda=torch.version.cuda, numpy=numpy.__version__,\n'
+         '           gpu=torch.cuda.get_device_name(0) if torch.cuda.is_available() else None)\n'
+         '(paths.raw_results / "c_busi_clicks" / "environment.json").write_text(json.dumps(env, indent=2))\n'),
+    md("## Export raw metrics, click traces, protocol and analysis"),
+    code('EXP_ID = "c_busi_clicks"\n'),
+    export_cell('[paths.raw_results / EXP_ID, paths.summary_results / EXP_ID]', 'C_02'),
 ]
 
 

@@ -1,0 +1,12 @@
+# Role C point experiments. MedSAM does not support point prompts.
+exp_id: c_busi_clicks
+dataset: busi
+split: test
+models: [sam_vit_b, sam_vit_h]
+max_images: null
+clicks:
+  offset_levels: [0.0, 0.25, 0.5, 0.75, 1.0]
+  seeds: [0, 1, 2]
+  initial_offset: 0.5
+  max_corrections: 5
+  band: 0.05
