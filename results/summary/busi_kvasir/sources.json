@@ -1,0 +1,38 @@
+{
+  "sources": [
+    {
+      "dataset": "BUSI",
+      "model": "sam_vit_b",
+      "path": "results/raw/c_busi_box/sam_vit_b.csv",
+      "rows": 3096,
+      "images": 129,
+      "sha256": "8aac1141dd0e816ae596d6d862061e8f2d15683acf50d74172c234bdb9e2f68c"
+    },
+    {
+      "dataset": "BUSI",
+      "model": "medsam",
+      "path": "results/raw/c_busi_box/medsam.csv",
+      "rows": 3096,
+      "images": 129,
+      "sha256": "cf22d97614115e73ef98156fd848ea27083ec304fbfe27c233b1b86b0e2a578a"
+    },
+    {
+      "dataset": "Kvasir-SEG",
+      "model": "sam_vit_b",
+      "path": "results/raw/p1_kvasir_pilot/sam_vit_b.csv",
+      "rows": 4800,
+      "images": 200,
+      "sha256": "bfd8d7eaefbcbd18908af2183dc02e277b85317b4e9abb8bcd4e39bc5242f0fe"
+    },
+    {
+      "dataset": "Kvasir-SEG",
+      "model": "medsam",
+      "path": "results/raw/p1_kvasir_pilot/medsam.csv",
+      "rows": 4800,
+      "images": 200,
+      "sha256": "2b0c26e33f2125e537e752ba07155b6edf4e5a158508340650d0941462b10af5"
+    }
+  ],
+  "comparison": "Descriptive only; no between-dataset paired test",
+  "seeds": "Averaged within image before image bootstrap"
+}

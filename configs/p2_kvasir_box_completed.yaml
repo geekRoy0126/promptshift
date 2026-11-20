@@ -1,0 +1,6 @@
+exp_id: p1_kvasir_pilot
+dataset: kvasir_seg
+split: test
+models: [sam_vit_b, medsam]
+perturbations: [box_jitter, box_scale]
+max_images: null

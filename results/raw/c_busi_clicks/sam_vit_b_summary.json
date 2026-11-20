@@ -1,0 +1,11 @@
+{
+  "model": "sam_vit_b",
+  "n_images": 129,
+  "configs_per_image": 33,
+  "rows": 4257,
+  "expected_rows": 4257,
+  "errors": [],
+  "already_done": 0,
+  "seconds": 499.60532240099997,
+  "complete": true
+}

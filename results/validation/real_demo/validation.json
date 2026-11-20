@@ -1,0 +1,32 @@
+{
+  "image_id": "benign_0330",
+  "device": "cuda",
+  "mode": "Real pretrained weights through Gradio HTTP API; no public share link",
+  "ground_truth_used": false,
+  "runs": [
+    {
+      "condition": "wide",
+      "box_percent": [
+        20,
+        20,
+        80,
+        80
+      ],
+      "seconds": 14.068359315999942,
+      "status": "SAM ViT-B and MedSAM; same box. No ground truth supplied, so no Dice score.",
+      "model_outputs_differ": true
+    },
+    {
+      "condition": "shifted",
+      "box_percent": [
+        40,
+        10,
+        95,
+        65
+      ],
+      "seconds": 3.5189775710000504,
+      "status": "SAM ViT-B and MedSAM; same box. No ground truth supplied, so no Dice score.",
+      "model_outputs_differ": true
+    }
+  ]
+}

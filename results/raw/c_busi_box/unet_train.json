@@ -1,0 +1,27 @@
+{
+ "method": "unet",
+ "dataset": "busi",
+ "config": {
+  "encoder": "resnet34",
+  "encoder_weights": "imagenet",
+  "input_size": 352,
+  "epochs": 60,
+  "batch_size": 8,
+  "lr": 0.0001,
+  "weight_decay": 0.0001,
+  "seed": 0,
+  "num_workers": 2,
+  "color_jitter": 0.1,
+  "threshold": 0.5
+ },
+ "device": "cuda",
+ "torch": "2.14.1+cu130",
+ "git_sha": "74ac661",
+ "n_train": 452,
+ "n_val": 65,
+ "n_test": 129,
+ "best_epoch": 50,
+ "best_val_dice": 0.8105919281279218,
+ "test_dice": 0.8250882921366143,
+ "selection": "checkpoint with the highest val Dice (original resolution)"
+}

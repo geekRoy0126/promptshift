@@ -1,0 +1,68 @@
+{
+  "dataset": "busi",
+  "gpu": "Tesla T4",
+  "torch": "2.14.1+cu130",
+  "started_utc": "2026-11-10T01:02:34.295835+00:00",
+  "git_sha": "d9ce3d2962f9d1c7de3a3de9f1d78280232830f1",
+  "models": [
+    "sam_vit_b",
+    "sam_vit_h",
+    "medsam"
+  ],
+  "n_test_images": 129,
+  "note": "Official pretrained weights; no fine-tuning; BUSI seen by MedSAM.",
+  "full_seconds": 1044.04,
+  "summaries": [
+    {
+      "model": "sam_vit_b",
+      "n_images": 129,
+      "n_configs": 24,
+      "skipped_point_configs": 0,
+      "already_done": 0,
+      "repaired_rows_dropped": 0,
+      "processed": 129,
+      "errors": 0,
+      "error_ids": [],
+      "invalid_rows": 0,
+      "empty_predictions": 1,
+      "rows_in_csv": 3096,
+      "expected_rows": 3096,
+      "invalid_rows_in_csv": 0,
+      "complete": true
+    },
+    {
+      "model": "sam_vit_h",
+      "n_images": 129,
+      "n_configs": 24,
+      "skipped_point_configs": 0,
+      "already_done": 0,
+      "repaired_rows_dropped": 0,
+      "processed": 129,
+      "errors": 0,
+      "error_ids": [],
+      "invalid_rows": 0,
+      "empty_predictions": 0,
+      "rows_in_csv": 3096,
+      "expected_rows": 3096,
+      "invalid_rows_in_csv": 0,
+      "complete": true
+    },
+    {
+      "model": "medsam",
+      "n_images": 129,
+      "n_configs": 24,
+      "skipped_point_configs": 0,
+      "already_done": 0,
+      "repaired_rows_dropped": 0,
+      "processed": 129,
+      "errors": 0,
+      "error_ids": [],
+      "invalid_rows": 0,
+      "empty_predictions": 0,
+      "rows_in_csv": 3096,
+      "expected_rows": 3096,
+      "invalid_rows_in_csv": 0,
+      "complete": true
+    }
+  ]
+}

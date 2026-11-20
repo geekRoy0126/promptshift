@@ -8,7 +8,7 @@ Phase 1 = the full framework plus a pilot on Kvasir-SEG.
 
 ## Status
 
-Phase 1 in progress. All result numbers below are `TBD` until produced by code in this repo.
+Verified BUSI and teammate Kvasir box results are available. Phase 2 Role C additions and remaining dependencies are tracked in [the progress report](docs/phase2_role_c_progress.md). The legacy generated table below has not yet been rebuilt for all datasets.
 
 ## Run on Colab
 
@@ -65,4 +65,13 @@ AI assistance (Claude Code) was used for this project and is disclosed to the co
 
 BUSI experiment, dataset-independent analysis, ranked failure-case review and a local
 SAM/MedSAM demo: see [the Role C guide](docs/role_c.md). Start with
-`notebooks/C_01_busi_analysis.ipynb` after setup. No BUSI scores are prefilled.
+`notebooks/C_01_busi_analysis.ipynb` after setup. The completed T4 experiment and
+verified BUSI scores are documented in [Role C results](docs/role_c_results.md).
+
+Phase 2: use `C_02_busi_clicks.ipynb` for point offsets and corrective clicks, and
+`C_03_busi_baselines_demo.ipynb` for BUSI U-Net/classical baselines and real-model
+demo validation. See [the click protocol](docs/role_c_click_protocol.md) and
+[the cross-dataset analysis](docs/phase2_role_c_progress.md).
+
+Completed November 20: [BUSI Phase 2 results](docs/role_c_phase2_results.md),
+including full click runs, 60-epoch U-Net training, classical baseline and real demo validation.

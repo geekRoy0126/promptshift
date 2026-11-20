@@ -3,7 +3,7 @@
 Colors: the first three slots of the validated reference categorical palette (they pass the
 all-pairs colorblind check), one per foundation model in a fixed order. The prompt-free baselines
 are reference lines in neutral ink, told apart by line style (U-Net dashed, classical dotted)
-and direct labels, so identity never depends on color alone.
+and legend labels, so identity never depends on color alone.
 """
 
 from __future__ import annotations
@@ -57,10 +57,8 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
     for method, b in baselines.items():
         st = BASELINE_STYLE[method]
         ax.axhspan(b["lo"], b["hi"], color=st["color"], alpha=0.08, lw=0)
-        ax.axhline(b["mean"], color=st["color"], ls=st["ls"], lw=1.5)
-        ax.annotate(f"{st['label']} {b['mean']:.2f}", (x_min, b["mean"]),
-                    xytext=(2, -12 if b["mean"] > 0.9 else 3),
-                    textcoords="offset points", color=MUTED, fontsize=8)  # fmt: skip
+        ax.axhline(b["mean"], color=st["color"], ls=st["ls"], lw=1.5,
+                   label=f"{st['label']} {b['mean']:.3f}")
     for model in MODEL_COLORS:
         if model not in curves:
             continue
@@ -69,9 +67,6 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
         ax.fill_between(c["level"], c["lo"], c["hi"], color=col, alpha=0.18, lw=0)
         ax.plot(c["level"], c["mean"], color=col, lw=2, marker="o", ms=4,
                 label=MODEL_LABELS[model])  # fmt: skip
-        ax.annotate(MODEL_LABELS[model], (c["level"].iloc[-1], c["mean"].iloc[-1]),
-                    xytext=(5, 0), textcoords="offset points", va="center", color=INK,
-                    fontsize=8)  # fmt: skip
     if ref_x is not None:
         ax.axvline(ref_x, color=GRID, lw=1)
     ax.set_xlim(x_min - 0.02 * (x_max - x_min), x_max + 0.18 * (x_max - x_min))
@@ -79,8 +74,9 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
     if percent_x:
         ax.xaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
     _style(ax, xlabel, "Dice (mean over images, 95% CI)", title)
-    if curves:
-        ax.legend(frameon=False, fontsize=8, loc="lower left")
+    if curves or baselines:
+        ax.legend(frameon=False, fontsize=8, loc="upper center",
+                  bbox_to_anchor=(0.5, -0.25), ncol=3)
     fig.tight_layout()
     return fig
 

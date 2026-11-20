@@ -1,0 +1,41 @@
+{
+  "source_archive": "p1_03_p1_kvasir_pilot_b670576.zip",
+  "archive_sha256": "637565c9bc8e5ce1249d13f1affa1ad80efd1d544f5c780ee4ebb4a214401c1e",
+  "files_byte_identical_to_archive": [
+    {
+      "path": "raw/p1_kvasir_pilot/medsam.csv",
+      "sha256": "2b0c26e33f2125e537e752ba07155b6edf4e5a158508340650d0941462b10af5"
+    },
+    {
+      "path": "raw/p1_kvasir_pilot/medsam_objects.csv",
+      "sha256": "ba0108ef323af5848f0b01331ec448b9640e0ebb069499766093f3cad3d53a91"
+    },
+    {
+      "path": "raw/p1_kvasir_pilot/medsam_summary.json",
+      "sha256": "08e30738a4e8f7552369d2b7e588087ef716e60586de69dcba28830acae59a97"
+    },
+    {
+      "path": "raw/p1_kvasir_pilot/sam_vit_b.csv",
+      "sha256": "bfd8d7eaefbcbd18908af2183dc02e277b85317b4e9abb8bcd4e39bc5242f0fe"
+    },
+    {
+      "path": "raw/p1_kvasir_pilot/sam_vit_b_objects.csv",
+      "sha256": "5a811f629cff3b748daa6376ba06f9be0ce6305a0661b5472f4d37e413211522"
+    },
+    {
+      "path": "raw/p1_kvasir_pilot/sam_vit_b_summary.json",
+      "sha256": "b8b1fac17a7c1e6f88d077c4e11f4f682e22548fbee566902b4962aee284c8e3"
+    }
+  ],
+  "models": [
+    "sam_vit_b",
+    "medsam"
+  ],
+  "n_images_per_model": 200,
+  "rows_per_model": 4800,
+  "aggregate_matches_raw_at_six_decimal_precision": true,
+  "identical_prompt_keys_and_box_iou_across_models": true,
+  "hardware_log": "Tesla T4",
+  "source_folder_label": "P100 Result",
+  "hardware_discrepancy_preserved": true
+}

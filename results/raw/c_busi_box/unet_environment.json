@@ -1,0 +1,18 @@
+{
+  "python": "3.13.16",
+  "packages": {
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "scipy": "1.16.3",
+    "segmentation-models-pytorch": "0.6.0",
+    "opencv-python-headless": "5.0.0.93",
+    "gradio": "5.50.0",
+    "segment_anything": "1.0",
+    "Pillow": "11.3.0"
+  },
+  "gpu": "Tesla T4",
+  "cuda": "13.0",
+  "repo_sha": "74ac661d56930e71aa3784db79a810ab9f34a442"
+}

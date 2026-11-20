@@ -1,0 +1,39 @@
+{
+ "method": "classical",
+ "dataset": "busi",
+ "params": {
+  "channel": "hsv_v",
+  "polarity": "low",
+  "sigma": 4,
+  "radius": 10
+ },
+ "selection": "max mean Dice on train (452 images); test evaluated once",
+ "train_dice": 0.16878797893212172,
+ "val_dice": 0.14775141153393412,
+ "test_dice": 0.1581645616647469,
+ "n_test": 129,
+ "git_sha": "74ac661",
+ "grid": {
+  "channel": [
+   "lab_L",
+   "lab_a",
+   "lab_b",
+   "hsv_s",
+   "hsv_v"
+  ],
+  "polarity": [
+   "high",
+   "low"
+  ],
+  "sigma": [
+   1,
+   2,
+   4
+  ],
+  "radius": [
+   2,
+   5,
+   10
+  ]
+ }
+}
