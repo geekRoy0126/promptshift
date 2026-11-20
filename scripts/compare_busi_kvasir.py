@@ -24,7 +24,7 @@ def main():
     ):
         split_name = "busi" if dataset == "BUSI" else "kvasir_seg"
         ids = set(json.loads((root / f"splits/{split_name}.json").read_text())["test"])
-        for model, color in [("sam_vit_b", "#2878b5"), ("medsam", "#d66b24")]:
+        for model, color in [("sam_vit_b", "#2a78d6"), ("medsam", "#1baf7a")]:
             path = root / f"results/raw/{exp}/{model}.csv"
             df = pd.read_csv(path, dtype={"image_id": str})
             expected = {

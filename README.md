@@ -72,3 +72,6 @@ Phase 2: use `C_02_busi_clicks.ipynb` for point offsets and corrective clicks, a
 `C_03_busi_baselines_demo.ipynb` for BUSI U-Net/classical baselines and real-model
 demo validation. See [the click protocol](docs/role_c_click_protocol.md) and
 [the cross-dataset analysis](docs/phase2_role_c_progress.md).
+
+Completed November 20: [BUSI Phase 2 results](docs/role_c_phase2_results.md),
+including full click runs, 60-epoch U-Net training, classical baseline and real demo validation.

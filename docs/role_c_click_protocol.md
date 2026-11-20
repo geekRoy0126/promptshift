@@ -45,3 +45,5 @@ python scripts/analyze_click_results.py --config configs/c_busi_clicks.yaml
 ```
 
 No click scores are claimed until a complete real-model run is validated.
+
+The full T4 run was completed and validated on November 20; see [the results](role_c_phase2_results.md).

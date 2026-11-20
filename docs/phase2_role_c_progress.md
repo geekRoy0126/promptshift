@@ -62,10 +62,9 @@ scores. Team review should confirm categories before report submission.
 
 ## Remaining dependencies
 
-- BUSI clicks: implementation, oracle protocol, resume tests and Colab notebook
-  are added; actual full-run status is documented separately after execution.
-- U-Net results/checkpoints are still needed for prompt-free baseline and crossover
-  claims. Coordinate with Role B; do not report a missing baseline as complete.
+- BUSI clicks, U-Net/classical baselines and real demo validation are now complete;
+  see [the full BUSI results](role_c_phase2_results.md).
+- Kvasir ViT-H and the other owners' non-BUSI U-Net outputs remain to be supplied.
 - COCO/natural-image and ISIC experiments are not supplied by this Kvasir archive.
   Full project coverage requires the corresponding owners' outputs.
 - Final human failure review and final presentation/report integration remain.

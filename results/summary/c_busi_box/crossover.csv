@@ -1,1 +1,7 @@
 model,baseline,n_images,first_level,interp,label
+sam_vit_b,unet,129,0.0,0.0,below at 0%
+sam_vit_b,classical,129,,,> 50%
+sam_vit_h,unet,129,0.2,0.15957535622112443,20%
+sam_vit_h,classical,129,,,> 50%
+medsam,unet,129,0.2,0.1862070122249771,20%
+medsam,classical,129,,,> 50%

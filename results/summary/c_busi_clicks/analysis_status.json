@@ -1,0 +1,13 @@
+{
+  "complete": true,
+  "images": 129,
+  "models": [
+    "sam_vit_b",
+    "sam_vit_h"
+  ],
+  "rows_per_model": 4257,
+  "initial_offset": 0.5,
+  "correction_protocol": "Largest error component, deepest unused pixel; GT oracle",
+  "comparison": "Same initial clicks; adaptive later clicks can differ across models",
+  "caution": "Image-level split; no MedSAM point experiment; no claim of clinical use"
+}

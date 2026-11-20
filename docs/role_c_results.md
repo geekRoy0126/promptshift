@@ -56,6 +56,6 @@ intervals were checked against the Colab export.
 
 BUSI is marked **seen by MedSAM** in `docs/leakage.md`; this is not an unseen-domain
 result. The split is image-level, not patient-level. Ground-truth masks construct
-the reference prompts. **U-Net and classical baselines were not run**, so crossover
-conclusions cannot yet be made. Click experiments and manual failure-cause review
-are also not completed by this run.
+the reference prompts. The original November 9 run did not include baselines or clicks. These were
+completed on November 20: see [Phase 2 results](role_c_phase2_results.md).
+Human confirmation of the preliminary failure observations remains pending.

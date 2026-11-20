@@ -2,10 +2,7 @@
   "dataset": "busi",
   "experiment": "c_busi_box",
   "missing_methods": [],
-  "missing_baselines": [
-    "unet",
-    "classical"
-  ],
+  "missing_baselines": [],
   "complete": true,
   "notes": [
     "Seeds averaged within images before inference statistics.",
