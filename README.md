@@ -65,4 +65,5 @@ AI assistance (Claude Code) was used for this project and is disclosed to the co
 
 BUSI experiment, dataset-independent analysis, ranked failure-case review and a local
 SAM/MedSAM demo: see [the Role C guide](docs/role_c.md). Start with
-`notebooks/C_01_busi_analysis.ipynb` after setup. No BUSI scores are prefilled.
+`notebooks/C_01_busi_analysis.ipynb` after setup. The completed T4 experiment and
+verified BUSI scores are documented in [Role C results](docs/role_c_results.md).

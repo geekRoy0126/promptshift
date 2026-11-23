@@ -69,9 +69,6 @@ def curve_figure(curves: dict[str, pd.DataFrame], baselines: dict[str, dict], *,
         ax.fill_between(c["level"], c["lo"], c["hi"], color=col, alpha=0.18, lw=0)
         ax.plot(c["level"], c["mean"], color=col, lw=2, marker="o", ms=4,
                 label=MODEL_LABELS[model])  # fmt: skip
-        ax.annotate(MODEL_LABELS[model], (c["level"].iloc[-1], c["mean"].iloc[-1]),
-                    xytext=(5, 0), textcoords="offset points", va="center", color=INK,
-                    fontsize=8)  # fmt: skip
     if ref_x is not None:
         ax.axvline(ref_x, color=GRID, lw=1)
     ax.set_xlim(x_min - 0.02 * (x_max - x_min), x_max + 0.18 * (x_max - x_min))

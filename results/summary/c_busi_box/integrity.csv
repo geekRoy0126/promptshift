@@ -1,0 +1,4 @@
+model,rows,images,expected_images,complete,invalid_rows,valid_rows
+sam_vit_b,3096,129,129,True,0,3096
+sam_vit_h,3096,129,129,True,0,3096
+medsam,3096,129,129,True,0,3096

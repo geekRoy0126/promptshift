@@ -1,0 +1,17 @@
+{
+ "model": "sam_vit_b",
+ "n_images": 129,
+ "n_configs": 24,
+ "skipped_point_configs": 0,
+ "already_done": 0,
+ "repaired_rows_dropped": 0,
+ "processed": 129,
+ "errors": 0,
+ "error_ids": [],
+ "invalid_rows": 0,
+ "empty_predictions": 1,
+ "rows_in_csv": 3096,
+ "expected_rows": 3096,
+ "invalid_rows_in_csv": 0,
+ "complete": true
+}
