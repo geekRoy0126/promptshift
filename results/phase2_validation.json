@@ -1,0 +1,36 @@
+{
+  "archive_sha256": "b0709de6fba40ceb4f39798a4ad5e2be84beeb104eefdfad1077ac23771f3e26",
+  "exported_files_verified": 39,
+  "initial_clicks_identical_across_models": true,
+  "offset_half_equals_correction_start": true,
+  "no_repeated_correction_positions": true,
+  "counts": {
+    "sam_vit_b": {
+      "rows": 4257,
+      "images": 129,
+      "trace_rows": 4290,
+      "empty_predictions": 0
+    },
+    "sam_vit_h": {
+      "rows": 4257,
+      "images": 129,
+      "trace_rows": 4290,
+      "empty_predictions": 0
+    },
+    "unet": {
+      "rows": 129,
+      "test_dice": 0.8250882921366143,
+      "best_epoch": 50,
+      "best_val_dice": 0.8105919281279218,
+      "training_seconds": 1468.112111568451
+    },
+    "classical": {
+      "rows": 129,
+      "test_dice": 0.15816456166474685
+    }
+  },
+  "statistical_tables_recomputed_locally_and_matched": true,
+  "numerical_tolerance": 1e-12,
+  "figures_regenerated_locally": true,
+  "export_manifest_scope": "Original GPU export; curated figures and additional baseline comparisons are generated locally from the same raw data."
+}

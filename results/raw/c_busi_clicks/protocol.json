@@ -1,0 +1,281 @@
+{
+  "config": {
+    "global_seed": 42,
+    "data": {
+      "mask_threshold": 127,
+      "min_object_frac": 0.001,
+      "connectivity": 8,
+      "split": {
+        "seed": 42,
+        "fractions": {
+          "train": 0.7,
+          "val": 0.1,
+          "test": 0.2
+        }
+      },
+      "coco": {
+        "min_area_frac": 0.01,
+        "n_instances": 1000,
+        "sample_seed": 42
+      },
+      "busi": {
+        "drop_normal": true
+      }
+    },
+    "metrics": {
+      "nsd_tolerance_px": 2
+    },
+    "prompts": {
+      "box_jitter": {
+        "levels": [
+          0.0,
+          0.05,
+          0.1,
+          0.2,
+          0.3,
+          0.5
+        ],
+        "seeds": [
+          0,
+          1,
+          2
+        ],
+        "max_resample": 10,
+        "min_box_side": 2
+      },
+      "box_scale": {
+        "levels": [
+          0.8,
+          0.9,
+          1.0,
+          1.1,
+          1.25,
+          1.5
+        ],
+        "seeds": [
+          0
+        ],
+        "min_box_side": 2
+      },
+      "point_offset": {
+        "levels": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "seeds": [
+          0,
+          1,
+          2
+        ],
+        "band": 0.05
+      }
+    },
+    "models": [
+      "sam_vit_b",
+      "sam_vit_h"
+    ],
+    "runner": {
+      "flush_every": 10
+    },
+    "analysis": {
+      "bootstrap_n": 2000,
+      "bootstrap_seed": 42,
+      "ci": 0.95
+    },
+    "baselines": {
+      "classical": {
+        "channel": [
+          "lab_L",
+          "lab_a",
+          "lab_b",
+          "hsv_s",
+          "hsv_v"
+        ],
+        "polarity": [
+          "high",
+          "low"
+        ],
+        "sigma": [
+          1,
+          2,
+          4
+        ],
+        "radius": [
+          2,
+          5,
+          10
+        ],
+        "select_on": "train"
+      },
+      "unet": {
+        "encoder": "resnet34",
+        "encoder_weights": "imagenet",
+        "input_size": 352,
+        "epochs": 60,
+        "batch_size": 8,
+        "lr": 0.0001,
+        "weight_decay": 0.0001,
+        "seed": 0,
+        "num_workers": 2,
+        "color_jitter": 0.1,
+        "threshold": 0.5
+      }
+    },
+    "exp_id": "c_busi_clicks",
+    "dataset": "busi",
+    "split": "test",
+    "max_images": null,
+    "clicks": {
+      "offset_levels": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "initial_offset": 0.5,
+      "max_corrections": 5,
+      "band": 0.05
+    }
+  },
+  "image_ids": [
+    "benign_0002",
+    "benign_0006",
+    "benign_0011",
+    "benign_0016",
+    "benign_0033",
+    "benign_0035",
+    "benign_0040",
+    "benign_0042",
+    "benign_0043",
+    "benign_0050",
+    "benign_0053",
+    "benign_0058",
+    "benign_0064",
+    "benign_0066",
+    "benign_0070",
+    "benign_0077",
+    "benign_0082",
+    "benign_0088",
+    "benign_0103",
+    "benign_0106",
+    "benign_0107",
+    "benign_0112",
+    "benign_0114",
+    "benign_0115",
+    "benign_0118",
+    "benign_0123",
+    "benign_0124",
+    "benign_0138",
+    "benign_0142",
+    "benign_0168",
+    "benign_0171",
+    "benign_0178",
+    "benign_0183",
+    "benign_0188",
+    "benign_0189",
+    "benign_0190",
+    "benign_0191",
+    "benign_0196",
+    "benign_0213",
+    "benign_0222",
+    "benign_0228",
+    "benign_0267",
+    "benign_0268",
+    "benign_0273",
+    "benign_0276",
+    "benign_0278",
+    "benign_0280",
+    "benign_0287",
+    "benign_0288",
+    "benign_0291",
+    "benign_0297",
+    "benign_0301",
+    "benign_0302",
+    "benign_0304",
+    "benign_0312",
+    "benign_0314",
+    "benign_0315",
+    "benign_0318",
+    "benign_0330",
+    "benign_0333",
+    "benign_0334",
+    "benign_0340",
+    "benign_0343",
+    "benign_0348",
+    "benign_0350",
+    "benign_0360",
+    "benign_0365",
+    "benign_0367",
+    "benign_0370",
+    "benign_0371",
+    "benign_0373",
+    "benign_0376",
+    "benign_0385",
+    "benign_0386",
+    "benign_0387",
+    "benign_0390",
+    "benign_0397",
+    "benign_0398",
+    "benign_0404",
+    "benign_0411",
+    "benign_0417",
+    "benign_0433",
+    "malignant_0001",
+    "malignant_0004",
+    "malignant_0006",
+    "malignant_0014",
+    "malignant_0015",
+    "malignant_0016",
+    "malignant_0017",
+    "malignant_0039",
+    "malignant_0047",
+    "malignant_0048",
+    "malignant_0054",
+    "malignant_0055",
+    "malignant_0064",
+    "malignant_0066",
+    "malignant_0067",
+    "malignant_0068",
+    "malignant_0072",
+    "malignant_0082",
+    "malignant_0089",
+    "malignant_0090",
+    "malignant_0092",
+    "malignant_0093",
+    "malignant_0094",
+    "malignant_0097",
+    "malignant_0098",
+    "malignant_0099",
+    "malignant_0107",
+    "malignant_0111",
+    "malignant_0112",
+    "malignant_0113",
+    "malignant_0117",
+    "malignant_0119",
+    "malignant_0122",
+    "malignant_0123",
+    "malignant_0141",
+    "malignant_0148",
+    "malignant_0151",
+    "malignant_0158",
+    "malignant_0171",
+    "malignant_0174",
+    "malignant_0180",
+    "malignant_0186",
+    "malignant_0187",
+    "malignant_0189",
+    "malignant_0195",
+    "malignant_0201",
+    "malignant_0207"
+  ],
+  "fingerprint": "609fedf859021ad75f1176a060f380398be18da136631e6aaae1bc29a7c98bc6"
+}

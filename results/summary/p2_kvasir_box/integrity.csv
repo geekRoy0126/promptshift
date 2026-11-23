@@ -1,0 +1,4 @@
+model,rows,images,expected_images,complete,invalid_rows,valid_rows
+sam_vit_b,4800,200,200,True,0,4800
+medsam,4800,200,200,True,0,4800
+classical,200,200,200,True,0,200

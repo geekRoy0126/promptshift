@@ -1,0 +1,3 @@
+model,baseline,n_images,first_level,interp,label
+sam_vit_b,classical,200,,,> 50%
+medsam,classical,200,,,> 50%

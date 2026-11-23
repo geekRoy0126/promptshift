@@ -1,0 +1,9 @@
+{
+  "repo_sha": "4ce3de086842b4edf094d04dad88d9828ee8a4e0",
+  "python": "3.13.16",
+  "torch": "2.14.1+cu130",
+  "numpy": "2.4.6",
+  "cuda": "13.0",
+  "gpu": "Tesla T4",
+  "seconds_including_smoke_and_analysis": 1382.785884244
+}
